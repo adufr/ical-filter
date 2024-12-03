@@ -1,8 +1,9 @@
 import type { VEvent } from 'node-ical'
-import type { Event } from '~/types'
+import type { Event, Rule } from '~/types'
 import { ICalCalendar } from 'ical-generator'
 import ical from 'node-ical'
 import { z } from 'zod'
+import { applyRulesFilters } from '~/utils/rules'
 
 const stringToJSONSchema = z.string()
   .transform((str, ctx): z.infer<ReturnType<typeof JSON.parse>> => {
@@ -36,7 +37,7 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   let { format, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
 
-  rules = Array.isArray(rules) ? rules : [rules]
+  rules = Array.isArray(rules) ? rules : ([rules] as Rule[])
 
   // --------------------------------------------------------------------------
   // 1. fetch and parse the calendar
@@ -55,50 +56,7 @@ export default defineEventHandler(async (event) => {
   // 2. filter events based on rules
 
   // TODO: move to a util file and add unit tests
-  const filteredEvents = icsEvents.filter((event) => {
-    for (const rule of rules) {
-      const include = rule.a === 'i' // i ->  include | e -> exclude
-
-      let fieldValue: string
-
-      switch (rule.f) {
-        case 's':
-          fieldValue = event.summary
-          break
-        case 'd':
-          fieldValue = event.description
-          break
-        case 'l':
-          fieldValue = event.location
-          break
-      }
-
-      switch (rule.t) {
-        case 'c':
-          if (fieldValue?.includes(rule.v))
-            return include
-          break
-        case '=':
-          if (fieldValue !== rule.v)
-            return include
-          break
-        case '!':
-          if (fieldValue === rule.v)
-            return include
-          break
-        case 's':
-          if (!fieldValue?.startsWith(rule.v))
-            return include
-          break
-        case 'e':
-          if (!fieldValue?.endsWith(rule.v))
-            return include
-          break
-      }
-    }
-
-    return false
-  })
+  const filteredEvents = applyRulesFilters(icsEvents, rules)
 
   // --------------------------------------------------------------------------
   // 3. return data

@@ -6,7 +6,7 @@ const isLoading = ref(false)
 const domain = ref('')
 
 const url = useLocalStorage('icalfilter.url', '')
-const rules = useLocalStorage('icalfilter.rules', [{ field: 'summary', type: 'contains', action: 'include', value: '' }] as Rule[])
+const rules = useLocalStorage('icalfilter.rules', [] as Rule[])
 const events = ref([] as VEvent[])
 
 onMounted(() => {
@@ -14,12 +14,7 @@ onMounted(() => {
 })
 
 function addRule() {
-  rules.value.push({
-    field: 'summary',
-    type: 'contains',
-    action: 'include',
-    value: '',
-  })
+  rules.value.push({ f: 's', t: 'c', a: 'i', v: '' })
 }
 
 function removeRule(index: number) {
@@ -30,7 +25,7 @@ const queryParams = computed(() => {
   const params = new URLSearchParams()
   params.set('url', url.value)
 
-  const r = rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))
+  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, a: rule.a, v: rule.v }))
   for (const rule of r)
     params.append('rules', JSON.stringify(rule))
 
@@ -54,7 +49,7 @@ async function generateAndCopyLink() {
       query: {
         format: 'json',
         url: url.value,
-        rules: [...rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))],
+        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, a: rule.a, v: rule.v }))],
       },
     })
 
@@ -93,7 +88,7 @@ async function generateAndCopyLink() {
       </div>
 
       <div>
-        <UButton @click="addRule">
+        <UButton @click="addRule()">
           Add rule
         </UButton>
       </div>
