@@ -14,7 +14,7 @@ onMounted(() => {
 })
 
 function addRule() {
-  rules.value.push({ f: 's', t: 'c', a: 'i', v: '' })
+  rules.value.push({ f: 's', t: 'c', v: '' })
 }
 
 function removeRule(index: number) {
@@ -25,7 +25,7 @@ const queryParams = computed(() => {
   const params = new URLSearchParams()
   params.set('url', url.value)
 
-  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, a: rule.a, v: rule.v }))
+  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, v: rule.v }))
   for (const rule of r)
     params.append('rules', JSON.stringify(rule))
 
@@ -49,7 +49,7 @@ async function generateAndCopyLink() {
       query: {
         format: 'json',
         url: url.value,
-        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, a: rule.a, v: rule.v }))],
+        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, v: rule.v }))],
       },
     })
 

@@ -1,49 +1,41 @@
 import type { VEvent } from 'node-ical'
-import type { Rule } from '~/types'
+import { type Rule, ruleFields, ruleTypes } from '~/types'
 
-export function applyRulesFilters(icsEvents: VEvent[], rules: Rule[]) {
+export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
   return icsEvents.filter((event) => {
-    for (const rule of rules) {
-      const include = rule.a === 'i' // i ->  include | e -> exclude
+    let fieldValue: string | undefined
 
-      let fieldValue: string
-
-      switch (rule.f) {
-        case 's':
-          fieldValue = event.summary
-          break
-        case 'd':
-          fieldValue = event.description
-          break
-        case 'l':
-          fieldValue = event.location
-          break
-      }
-
-      switch (rule.t) {
-        case 'c':
-          if (fieldValue?.includes(rule.v))
-            return include
-          break
-        case '=':
-          if (fieldValue !== rule.v)
-            return include
-          break
-        case '!':
-          if (fieldValue === rule.v)
-            return include
-          break
-        case 's':
-          if (!fieldValue?.startsWith(rule.v))
-            return include
-          break
-        case 'e':
-          if (!fieldValue?.endsWith(rule.v))
-            return include
-          break
-      }
+    switch (rule.f) {
+      case ruleFields.summary:
+        fieldValue = event.summary
+        break
+      case ruleFields.description:
+        fieldValue = event.description
+        break
+      case ruleFields.location:
+        fieldValue = event.location
+        break
+      default:
+        return false
     }
 
-    return false
+    switch (rule.t) {
+      case ruleTypes.contains:
+        return fieldValue?.includes(rule.v)
+      case ruleTypes.equals:
+        return fieldValue === rule.v
+      case ruleTypes.notEquals:
+        return fieldValue !== rule.v
+      case ruleTypes.startsWith:
+        return fieldValue?.startsWith(rule.v)
+      case ruleTypes.endsWith:
+        return fieldValue?.endsWith(rule.v)
+      default:
+        return false
+    }
   })
+}
+
+export function applyRulesFilters(icsEvents: VEvent[], rules: Rule[]) {
+  return rules.flatMap(rule => applyRuleFilter(icsEvents, rule))
 }

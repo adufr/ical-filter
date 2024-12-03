@@ -21,15 +21,8 @@ export const ruleTypes = {
 } as const
 export type RuleType = typeof ruleTypes[keyof typeof ruleTypes]
 
-export const ruleActions = {
-  include: 'i',
-  exclude: 'e',
-} as const
-export type RuleAction = typeof ruleActions[keyof typeof ruleActions]
-
 export interface Rule {
   f: RuleField
   t: RuleType
-  a: RuleAction
   v: string
 }
