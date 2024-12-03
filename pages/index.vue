@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { VEvent } from 'node-ical'
 import type { Rule } from '~/types'
 
 const isLoading = ref(false)
@@ -6,7 +7,7 @@ const domain = ref('')
 
 const url = useLocalStorage('icalfilter.url', '')
 const rules = useLocalStorage('icalfilter.rules', [{ field: 'summary', type: 'contains', action: 'include', value: '' }] as Rule[])
-const events = ref([])
+const events = ref([] as VEvent[])
 
 onMounted(() => {
   domain.value = window.location.origin
@@ -48,15 +49,16 @@ async function generateAndCopyLink() {
 
   isLoading.value = true
   try {
+    // @ts-expect-error single endpoint for both json and ics
     const { events: fetchedEvents } = await $fetch(`/api/cal`, {
       query: {
+        format: 'json',
         url: url.value,
         rules: [...rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))],
       },
     })
 
-    // @ts-expect-error FIXME
-    events.value = fetchedEvents
+    events.value = fetchedEvents as VEvent[]
 
     copyIcalUrl()
     useToast().add({ title: 'URL copied to clipboard', color: 'success' })
@@ -68,7 +70,7 @@ async function generateAndCopyLink() {
 </script>
 
 <template>
-  <div class="container flex flex-col gap-10">
+  <div class="container w-xl flex flex-col gap-10">
     <!-- set url and fetch events -->
     <div class="flex flex-col gap-2">
       <p>Enter URL:</p>
@@ -77,14 +79,15 @@ async function generateAndCopyLink() {
     </div>
 
     <!-- edit rules -->
-    <div class="flex flex-col gap-2">
+    <div class="w-full flex flex-col gap-2">
       <p>Edit rules:</p>
 
-      <div class="flex flex-col gap-2">
+      <div class="w-full flex flex-col gap-2">
         <Rule
           v-for="(rule, index) in rules"
           :key="index"
           v-model="rules[index]"
+          class="w-full"
           @remove="removeRule(index)"
         />
       </div>

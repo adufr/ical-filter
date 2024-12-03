@@ -1,5 +1,6 @@
 import type { VEvent } from 'node-ical'
 import type { Event } from '~/types'
+import { ICalCalendar } from 'ical-generator'
 import ical from 'node-ical'
 import { z } from 'zod'
 
@@ -24,6 +25,7 @@ const ruleSchema = stringToJSONSchema.pipe(
 )
 
 const querySchema = z.object({
+  format: z.enum(['json', 'ics']),
   url: z.string().url(),
   rules: z.union([
     ruleSchema,
@@ -32,7 +34,7 @@ const querySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  let { url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
+  let { format, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
 
   rules = Array.isArray(rules) ? rules : [rules]
 
@@ -99,7 +101,22 @@ export default defineEventHandler(async (event) => {
   })
 
   // --------------------------------------------------------------------------
-  // 3. return filtered events
+  // 3. return data
+
+  if (format === 'ics') {
+    const calendar = new ICalCalendar({ name: 'ICalFilter' })
+
+    for (const event of filteredEvents) {
+      calendar.createEvent({
+        start: event.start,
+        end: event.end,
+        summary: event.summary,
+      })
+    }
+
+    setResponseHeader(event, 'content-type', 'text/calendar')
+    return calendar.toString()
+  }
 
   return { events: filteredEvents }
 })
