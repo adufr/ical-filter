@@ -36,11 +36,16 @@ const queryParams = computed(() => {
   return params
 })
 
-const testCalendarUrl = computed(() => {
-  return `${domain.value}/api/ical?${queryParams.value}`
-})
+const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
+
+const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
 
 async function generateAndCopyLink() {
+  if (!isClipboardSupported.value) {
+    useToast().add({ title: 'Clipboard not supported', color: 'info' })
+    return
+  }
+
   isLoading.value = true
   try {
     const { events: fetchedEvents } = await $fetch(`/api/cal`, {
@@ -48,12 +53,13 @@ async function generateAndCopyLink() {
         url: url.value,
         rules: [...rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))],
       },
-      cache: 'no-cache',
     })
 
-    navigator.clipboard.writeText(testCalendarUrl.value as string)
     // @ts-expect-error FIXME
     events.value = fetchedEvents
+
+    copyIcalUrl()
+    useToast().add({ title: 'URL copied to clipboard', color: 'success' })
   }
   finally {
     isLoading.value = false
@@ -62,7 +68,7 @@ async function generateAndCopyLink() {
 </script>
 
 <template>
-  <div>
+  <div class="container flex flex-col gap-10">
     <!-- set url and fetch events -->
     <div class="flex flex-col gap-2">
       <p>Enter URL:</p>
@@ -92,13 +98,11 @@ async function generateAndCopyLink() {
 
     <!-- get calendar url -->
     <div class="flex flex-col gap-2">
-      <UButton :loading="isLoading" @click="generateAndCopyLink()">
-        Get calendar URL
-      </UButton>
-
-      <small class="text-xs">
-        {{ testCalendarUrl }}
-      </small>
+      <div>
+        <UButton :loading="isLoading" leading-icon="i-heroicons-clipboard-document-list" @click="generateAndCopyLink()">
+          Copy calendar URL
+        </UButton>
+      </div>
 
       <p>Found {{ events.length }} events</p>
     </div>
