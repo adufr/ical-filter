@@ -36,12 +36,7 @@ const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
 
 const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
 
-async function generateAndCopyLink() {
-  if (!isClipboardSupported.value) {
-    useToast().add({ title: 'Clipboard not supported', color: 'info' })
-    return
-  }
-
+async function fetchEvents() {
   isLoading.value = true
   try {
     // @ts-expect-error single endpoint for both json and ics
@@ -54,13 +49,20 @@ async function generateAndCopyLink() {
     })
 
     events.value = fetchedEvents as VEvent[]
-
-    copyIcalUrl()
-    useToast().add({ title: 'URL copied to clipboard', color: 'success' })
   }
   finally {
     isLoading.value = false
   }
+}
+
+function copyToClipboard() {
+  if (!isClipboardSupported.value) {
+    useToast().add({ title: 'Clipboard not supported', color: 'error' })
+    return
+  }
+
+  copyIcalUrl()
+  useToast().add({ title: 'URL copied to clipboard!', color: 'success' })
 }
 </script>
 
@@ -96,8 +98,12 @@ async function generateAndCopyLink() {
 
     <!-- get calendar url -->
     <div class="flex flex-col gap-2">
-      <div>
-        <UButton :loading="isLoading" leading-icon="i-heroicons-clipboard-document-list" @click="generateAndCopyLink()">
+      <div class="flex gap-2">
+        <UButton :loading="isLoading" leading-icon="i-heroicons-arrow-path" @click="fetchEvents()">
+          Fetch events
+        </UButton>
+
+        <UButton :loading="isLoading" leading-icon="i-heroicons-clipboard-document-list" @click="copyToClipboard()">
           Copy calendar URL
         </UButton>
       </div>
