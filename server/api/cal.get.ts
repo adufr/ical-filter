@@ -27,6 +27,7 @@ const ruleSchema = stringToJSONSchema.pipe(
 
 const querySchema = z.object({
   format: z.enum(['json', 'ics']),
+  name: z.string(),
   url: z.string().url(),
   rules: z.union([
     ruleSchema,
@@ -35,7 +36,7 @@ const querySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  let { format, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
+  let { format, name, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
 
   rules = Array.isArray(rules) ? rules : ([rules] as Rule[])
 
@@ -62,7 +63,7 @@ export default defineEventHandler(async (event) => {
   // 3. return data
 
   if (format === 'ics') {
-    const calendar = new ICalCalendar({ name: 'ICalFilter' })
+    const calendar = new ICalCalendar({ name })
 
     for (const event of filteredEvents) {
       calendar.createEvent({

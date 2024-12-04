@@ -34,25 +34,6 @@ const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
 
 const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
 
-async function fetchEvents() {
-  isLoading.value = true
-  try {
-    // @ts-expect-error single endpoint for both json and ics
-    const { events: fetchedEvents } = await $fetch(`/api/cal`, {
-      query: {
-        format: 'json',
-        url: url.value,
-        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))],
-      },
-    })
-
-    events.value = fetchedEvents as VEvent[]
-  }
-  finally {
-    isLoading.value = false
-  }
-}
-
 function copyToClipboard() {
   if (!isClipboardSupported.value) {
     useToast().add({ title: 'Clipboard not supported', color: 'error' })
@@ -84,6 +65,26 @@ function removeRule(index: number) {
 const ruleFieldsItems = computed<Array<{ label: string, value: RuleField }>>(() => Object.entries(ruleFields).map(([label, value]) => ({ label, value })))
 const ruleTypesItems = computed<Array<{ label: string, value: RuleType }>>(() => Object.entries(ruleTypes).map(([label, value]) => ({ label, value })))
 const ruleCsItems = computed<Array<{ label: string, value: boolean }>>(() => [{ label: 'case sensitive', value: true }, { label: 'case insensitive', value: false }])
+
+async function fetchEvents() {
+  isLoading.value = true
+  try {
+    // @ts-expect-error single endpoint for both json and ics
+    const { events: fetchedEvents } = await $fetch(`/api/cal`, {
+      query: {
+        format: 'json',
+        name: formState.name,
+        url: formState.url,
+        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))],
+      },
+    })
+
+    events.value = fetchedEvents as VEvent[]
+  }
+  finally {
+    isLoading.value = false
+  }
+}
 
 async function submitForm(event: FormSubmitEvent<FormSchema>) {
   await fetchEvents()
