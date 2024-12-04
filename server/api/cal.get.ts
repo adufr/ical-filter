@@ -1,5 +1,5 @@
 import type { VEvent } from 'node-ical'
-import type { Event, Rule } from '~/types'
+import type { Rule } from '~/types'
 import { ICalCalendar } from 'ical-generator'
 import ical from 'node-ical'
 import { z } from 'zod'
