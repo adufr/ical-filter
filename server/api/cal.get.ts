@@ -20,7 +20,7 @@ const ruleSchema = stringToJSONSchema.pipe(
   z.object({
     f: z.enum(['s', 'd', 'l']),
     t: z.enum(['c', '=', '!', 's', 'e']),
-    a: z.enum(['i', 'e']),
+    cs: z.boolean(),
     v: z.string(),
   }),
 )

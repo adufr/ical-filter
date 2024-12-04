@@ -14,7 +14,7 @@ onMounted(() => {
 })
 
 function addRule() {
-  rules.value.push({ f: 's', t: 'c', v: '' })
+  rules.value.push({ f: 's', t: 'c', cs: true, v: '' })
 }
 
 function removeRule(index: number) {
@@ -25,7 +25,7 @@ const queryParams = computed(() => {
   const params = new URLSearchParams()
   params.set('url', url.value)
 
-  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, v: rule.v }))
+  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))
   for (const rule of r)
     params.append('rules', JSON.stringify(rule))
 
@@ -49,7 +49,7 @@ async function generateAndCopyLink() {
       query: {
         format: 'json',
         url: url.value,
-        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, v: rule.v }))],
+        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))],
       },
     })
 
@@ -65,7 +65,7 @@ async function generateAndCopyLink() {
 </script>
 
 <template>
-  <div class="container w-xl flex flex-col gap-10">
+  <div class="container w-3xl flex flex-col gap-10">
     <!-- set url and fetch events -->
     <div class="flex flex-col gap-2">
       <p>Enter URL:</p>

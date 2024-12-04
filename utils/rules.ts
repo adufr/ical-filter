@@ -19,17 +19,20 @@ export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
         return false
     }
 
+    const value = rule.cs ? rule.v : rule.v.toLowerCase()
+    const compareValue = rule.cs ? fieldValue : fieldValue?.toLowerCase()
+
     switch (rule.t) {
       case ruleTypes.contains:
-        return fieldValue?.includes(rule.v)
+        return compareValue?.includes(value)
       case ruleTypes.equals:
-        return fieldValue === rule.v
+        return compareValue === value
       case ruleTypes.notEquals:
-        return fieldValue !== rule.v
+        return compareValue !== value
       case ruleTypes.startsWith:
-        return fieldValue?.startsWith(rule.v)
+        return compareValue?.startsWith(value)
       case ruleTypes.endsWith:
-        return fieldValue?.endsWith(rule.v)
+        return compareValue?.endsWith(value)
       default:
         return false
     }

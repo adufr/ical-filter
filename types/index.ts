@@ -24,5 +24,6 @@ export type RuleType = typeof ruleTypes[keyof typeof ruleTypes]
 export interface Rule {
   f: RuleField
   t: RuleType
+  cs: boolean
   v: string
 }
