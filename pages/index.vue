@@ -2,10 +2,6 @@
 definePageMeta({
   title: 'Calendars - iCalFilter',
   description: 'Manage your calendars',
-  pageTransition: {
-    name: 'slide',
-    mode: 'out-in',
-  },
 })
 
 const router = useRouter()

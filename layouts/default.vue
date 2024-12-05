@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+definePageMeta({
+  pageTransition: {
+    name: 'slide',
+    mode: 'out-in',
+  },
+})
+
 const toast = useToast()
 const runtimeConfig = useRuntimeConfig()
 

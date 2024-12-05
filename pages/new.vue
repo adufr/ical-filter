@@ -2,10 +2,6 @@
 definePageMeta({
   title: 'New calendar - iCalFilter',
   description: 'Create a new calendar',
-  pageTransition: {
-    name: 'slide',
-    mode: 'out-in',
-  },
 })
 </script>
 
