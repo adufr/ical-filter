@@ -26,7 +26,6 @@ const ruleSchema = stringToJSONSchema.pipe(
 )
 
 const querySchema = z.object({
-  format: z.enum(['json', 'ics']),
   name: z.string(),
   url: z.string().url(),
   rules: z.union([
@@ -36,7 +35,7 @@ const querySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  let { format, name, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
+  let { name, url, rules } = await getValidatedQuery(event, query => querySchema.parse(query))
 
   rules = Array.isArray(rules) ? rules : ([rules] as Rule[])
 
@@ -56,26 +55,21 @@ export default defineEventHandler(async (event) => {
   // --------------------------------------------------------------------------
   // 2. filter events based on rules
 
-  // TODO: move to a util file and add unit tests
   const filteredEvents = applyRulesFilters(icsEvents, rules)
 
   // --------------------------------------------------------------------------
-  // 3. return data
+  // 3. return data as ics
 
-  if (format === 'ics') {
-    const calendar = new ICalCalendar({ name })
+  const calendar = new ICalCalendar({ name })
 
-    for (const event of filteredEvents) {
-      calendar.createEvent({
-        start: event.start,
-        end: event.end,
-        summary: event.summary,
-      })
-    }
-
-    setResponseHeader(event, 'content-type', 'text/calendar')
-    return calendar.toString()
+  for (const event of filteredEvents) {
+    calendar.createEvent({
+      start: event.start,
+      end: event.end,
+      summary: event.summary,
+    })
   }
 
-  return { events: filteredEvents }
+  setResponseHeader(event, 'content-type', 'text/calendar')
+  return calendar.toString()
 })

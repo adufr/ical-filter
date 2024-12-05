@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
-import type { Rule, RuleField, RuleType } from '~/types'
+import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
 
 const toast = useToast()
@@ -9,37 +9,7 @@ const toast = useToast()
 const { activeCalendar, calendars } = useCalendars()
 
 const isLoading = ref(false)
-const domain = ref('')
-
-const url = useLocalStorage('icalfilter.url', '')
-const rules = useLocalStorage('icalfilter.rules', [] as Rule[])
 const events = ref([] as VEvent[])
-
-const queryParams = computed(() => {
-  const params = new URLSearchParams()
-  params.set('url', url.value)
-
-  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))
-  for (const rule of r)
-    params.append('rules', JSON.stringify(rule))
-
-  return params
-})
-
-const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
-
-const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
-
-function copyToClipboard() {
-  if (!isClipboardSupported.value) {
-    useToast().add({ title: 'Clipboard not supported', color: 'error' })
-    return
-  }
-
-  copyIcalUrl()
-  useToast().add({ title: 'URL copied to clipboard!', color: 'success' })
-}
-
 const formState = reactive<Partial<FormSchema>>(activeCalendar.value)
 
 function addRule() {
@@ -72,8 +42,6 @@ async function fetchCalendar() {
 }
 
 onMounted(() => {
-  domain.value = window.location.origin
-
   if (formState.url) {
     fetchCalendar()
   }
@@ -88,7 +56,12 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
   else {
     calendars.value.push(activeCalendar.value)
   }
-  toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
+
+  toast.add({
+    title: 'Success',
+    description: 'Your calendar has been saved',
+    color: 'success',
+  })
 }
 </script>
 
@@ -201,18 +174,9 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     </div>
 
     <!-- buttons -->
-    <div class="flex items-center gap-2">
+    <div>
       <UButton type="submit" icon="i-heroicons-bookmark">
         Save calendar
-      </UButton>
-
-      <UButton
-        color="primary"
-        variant="soft"
-        icon="i-heroicons-clipboard-document-list"
-        @click="copyToClipboard()"
-      >
-        Copy calendar URL
       </UButton>
     </div>
   </UForm>

@@ -12,6 +12,8 @@ function editCalendar(calendar: Calendar) {
 
 function deleteCalendar(calendar: Calendar) {
   calendars.value = calendars.value.filter(cal => cal.id !== calendar.id)
+
+  // TODO: add an undo button
   toast.add({
     title: 'Calendar deleted',
     description: 'The calendar has been deleted',
@@ -20,7 +22,11 @@ function deleteCalendar(calendar: Calendar) {
 }
 
 function copyToClipboard(calendar: Calendar) {
-  navigator.clipboard.writeText(calendar.url)
+  const apiUrl = getCalendarUrl(calendar)
+  const domain = window.location.origin
+
+  navigator.clipboard.writeText(`${domain}${apiUrl}`)
+
   toast.add({
     title: 'Calendar URL copied',
     description: 'The calendar URL has been copied to your clipboard',
