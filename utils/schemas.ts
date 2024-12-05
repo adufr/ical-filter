@@ -13,7 +13,7 @@ export type RuleSchema = z.output<typeof ruleSchema>
 export const formSchema = z.object({
   url: z.string().url(),
   name: z.string().min(1),
-  rules: z.array(ruleSchema).min(1),
+  rules: z.array(ruleSchema),
 })
 
 export type FormSchema = z.output<typeof formSchema>

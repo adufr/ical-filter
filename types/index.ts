@@ -29,6 +29,7 @@ export interface Rule {
 }
 
 export interface Calendar {
+  id?: string
   url: string
   name: string
   rules: Rule[]

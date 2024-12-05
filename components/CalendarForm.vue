@@ -6,10 +6,10 @@ import { ruleFields, ruleTypes } from '~/types'
 
 const toast = useToast()
 
+const { activeCalendar, calendars } = useCalendars()
+
 const isLoading = ref(false)
 const domain = ref('')
-
-const EMPTY_RULE: Rule = { f: 's', t: 'c', cs: true, v: '' }
 
 const url = useLocalStorage('icalfilter.url', '')
 const rules = useLocalStorage('icalfilter.rules', [] as Rule[])
@@ -40,29 +40,13 @@ function copyToClipboard() {
   useToast().add({ title: 'URL copied to clipboard!', color: 'success' })
 }
 
-const formState = reactive<Partial<FormSchema>>({
-  url: url.value,
-  name: undefined,
-  rules: [EMPTY_RULE],
-})
+const formState = reactive<Partial<FormSchema>>(activeCalendar.value)
 
 function addRule() {
-  // TODO: if last rule value is empty, don't add another rule
-  if (formState.rules?.[formState.rules.length - 1]?.v === '') {
-    toast.add({ title: 'Complete the last rule first', color: 'error' })
-    return
-  }
-
   formState.rules?.push({ f: 's', t: 'c', cs: true, v: '' })
 }
 
 function removeRule(index: number) {
-  // keep at least one rule
-  if (formState.rules?.length === 1) {
-    toast.add({ title: 'You cannot remove the last rule', color: 'error' })
-    return
-  }
-
   formState.rules?.splice(index, 1)
 }
 
@@ -95,7 +79,15 @@ onMounted(() => {
   }
 })
 
-async function submitForm(_: FormSubmitEvent<FormSchema>) {
+async function submitForm(event: FormSubmitEvent<FormSchema>) {
+  activeCalendar.value = event.data
+  const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
+  if (existingCalendarIndex >= 0) {
+    calendars.value[existingCalendarIndex] = activeCalendar.value
+  }
+  else {
+    calendars.value.push(activeCalendar.value)
+  }
   toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
 }
 </script>
@@ -108,7 +100,7 @@ async function submitForm(_: FormSubmitEvent<FormSchema>) {
     @submit="submitForm"
   >
     <!-- inputs -->
-    <div class="space-y-6">
+    <div class="flex-grow flex flex-col gap-6 overflow-y-auto">
       <UFormField label="Calendar name" name="name">
         <UInput
           v-model="formState.name"
@@ -132,18 +124,20 @@ async function submitForm(_: FormSubmitEvent<FormSchema>) {
           />
         </UFormField>
 
-        <p class="mt-1 text-sm text-gray-400">
+        <!-- TODO: correctly implement this feature -->
+        <!-- <p class="mt-1 text-sm text-gray-400">
           {{ formState.url
             ? isLoading
               ? 'Fetching events...'
               : `Found ${events.length} events `
             : 'Start by entering an iCalendar URL' }}
-        </p>
+        </p> -->
       </div>
 
       <!-- rules -->
-      <div class="space-y-1">
+      <div class="space-y-1 h-full">
         <label class="block font-medium text-sm">Filtering rules</label>
+        <!-- TODO: add a tooltip explaining the filtering rules -->
 
         <UForm
           v-for="(rule, index) in formState.rules"

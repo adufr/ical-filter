@@ -21,7 +21,7 @@ const ruleSchema = stringToJSONSchema.pipe(
     f: z.enum(['s', 'd', 'l']),
     t: z.enum(['c', '=', '!', 's', 'e']),
     cs: z.boolean(),
-    v: z.string(),
+    v: z.string(), // TODO: make rule optional and filter out all rules with empty values
   }),
 )
 
