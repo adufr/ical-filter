@@ -27,3 +27,9 @@ export interface Rule {
   cs: boolean
   v: string
 }
+
+export interface Calendar {
+  url: string
+  name: string
+  rules: Rule[]
+}

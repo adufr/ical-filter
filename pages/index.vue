@@ -1,206 +1,107 @@
 <script lang="ts" setup>
-import type { FormSubmitEvent } from '@nuxt/ui'
-import type { VEvent } from 'node-ical'
-import type { Rule, RuleField, RuleType } from '~/types'
-import { ruleFields, ruleTypes } from '~/types'
+definePageMeta({
+  title: 'iCalFilter',
+  description: 'Filter events from any iCalendar feed',
+})
 
 const toast = useToast()
+const runtimeConfig = useRuntimeConfig()
 
-const isLoading = ref(false)
-const domain = ref('')
+const appVersion = runtimeConfig.public.appVersion
 
-const EMPTY_RULE: Rule = { f: 's', t: 'c', cs: true, v: '' }
-
-const url = useLocalStorage('icalfilter.url', '')
-const rules = useLocalStorage('icalfilter.rules', [] as Rule[])
-const events = ref([] as VEvent[])
-
-onMounted(() => {
-  domain.value = window.location.origin
-})
-
-const queryParams = computed(() => {
-  const params = new URLSearchParams()
-  params.set('url', url.value)
-
-  const r = rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))
-  for (const rule of r)
-    params.append('rules', JSON.stringify(rule))
-
-  return params
-})
-
-const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
-
-const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
-
-function copyToClipboard() {
-  if (!isClipboardSupported.value) {
-    useToast().add({ title: 'Clipboard not supported', color: 'error' })
-    return
-  }
-
-  copyIcalUrl()
-  useToast().add({ title: 'URL copied to clipboard!', color: 'success' })
-}
-
-const formState = reactive<Partial<FormSchema>>({
-  url: url.value,
-  name: undefined,
-  rules: [EMPTY_RULE],
-})
-
-function addRule() {
-  // TODO: if last rule value is empty, don't add another rule
-  // if (formState.rules?.[formState.rules.length - 1]?.v === '')
-  //   return
-
-  formState.rules?.push({ f: 's', t: 'c', cs: true, v: '' })
-}
-
-function removeRule(index: number) {
-  formState.rules?.splice(index, 1)
-}
-
-const ruleFieldsItems = computed<Array<{ label: string, value: RuleField }>>(() => Object.entries(ruleFields).map(([label, value]) => ({ label, value })))
-const ruleTypesItems = computed<Array<{ label: string, value: RuleType }>>(() => Object.entries(ruleTypes).map(([label, value]) => ({ label, value })))
-const ruleCsItems = computed<Array<{ label: string, value: boolean }>>(() => [{ label: 'case sensitive', value: true }, { label: 'case insensitive', value: false }])
-
-async function fetchEvents() {
-  isLoading.value = true
-  try {
-    // @ts-expect-error single endpoint for both json and ics
-    const { events: fetchedEvents } = await $fetch(`/api/cal`, {
-      query: {
-        format: 'json',
-        name: formState.name,
-        url: formState.url,
-        rules: [...rules.value.map(rule => ({ f: rule.f, t: rule.t, cs: rule.cs, v: rule.v }))],
-      },
-    })
-
-    events.value = fetchedEvents as VEvent[]
-  }
-  finally {
-    isLoading.value = false
-  }
-}
-
-async function submitForm(event: FormSubmitEvent<FormSchema>) {
-  await fetchEvents()
-  toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
+function startTour() {
+  toast.add({
+    title: 'Not implemented yet!',
+    description: 'This feature will be available soon.',
+    color: 'warning',
+  })
 }
 </script>
 
 <template>
-  <div class="container w-2xl">
-    <UForm
-      :schema="formSchema"
-      :state="formState"
-      class="space-y-6"
-      @submit="submitForm"
-    >
-      <UFormField label="Calendar name" name="name">
-        <UInput
-          v-model="formState.name"
-          class="w-full"
-          placeholder="Give your calendar a name..."
-          leading-icon="i-heroicons-pencil-square"
-        />
-      </UFormField>
+  <div class="h-screen w-screen p-4 grid grid-cols-5 gap-4">
+    <!-- ---------------------------------------------------- -->
+    <!-- left side: calendar list -->
+    <!-- ---------------------------------------------------- -->
+    <div class="col-span-2 p-14 bg-primary-700 rounded-xl text-white">
+      <div class="h-full flex flex-col justify-between gap-4">
+        <div class="flex items-center justify-between gap-2">
+          <h1 class="text-2xl font-bold">
+            iCalFilter
+          </h1>
 
-      <UFormField label="iCalendar URL" name="url">
-        <UInput
-          v-model="formState.url"
-          class="w-full"
-          placeholder="Enter your iCalendar URL..."
-          leading-icon="i-heroicons-link"
-        />
-      </UFormField>
-
-      <!-- rules -->
-      <div class="space-y-1">
-        <div class="flex items-end justify-between w-full">
-          <label class="block font-medium text-sm">Filtering rules</label>
-          <UButton
-            size="sm"
-            variant="ghost"
-            color="neutral"
-            icon="i-heroicons-plus"
-            @click="addRule()"
-          >
-            Add rule
-          </UButton>
+          <ColorModeButton />
         </div>
 
-        <UForm
-          v-for="(rule, index) in formState.rules"
-          :key="index"
-          :state="rule"
-          :schema="ruleSchema"
-        >
-          <UButtonGroup class="w-full space-y-1">
-            <UFormField name="f">
-              <USelect
-                v-model="rule.f"
-                :items="ruleFieldsItems"
-                class="max-w-32 w-full"
-              />
-            </UFormField>
+        <div class="flex flex-col gap-5">
+          <p class="text-4xl font-bold">
+            Filter events from<br>any iCalendar feed
+          </p>
 
-            <UFormField name="t">
-              <USelect
-                v-model="rule.t"
-                :items="ruleTypesItems"
-                class="max-w-32 w-full"
-              />
-            </UFormField>
+          <p class="text-lg">
+            Add customizable filtering rules to existing iCalendar links
+          </p>
 
-            <UFormField name="cs">
-              <USelect
-                v-model="rule.cs"
-                :items="ruleCsItems"
-                class="max-w-40 w-full"
-              />
-            </UFormField>
+          <div>
+            <UButton
+              leading-icon="i-heroicons-arrow-right"
+              variant="ghost"
+              class="text-white"
+              @click="startTour()"
+            >
+              See how to use it
+            </UButton>
+          </div>
+        </div>
 
-            <UFormField name="v" class="w-full">
-              <UInput
-                v-model="rule.v"
-                class="w-full"
-                placeholder="Enter some text..."
-              />
-            </UFormField>
+        <div class="h-[200px] p-4">
+          <p class="text-sm">
+            <!-- Your calendars: -->
+          </p>
 
-            <UFormField>
-              <UButton leading-icon="i-heroicons-trash" @click="removeRule(index)" />
-            </UFormField>
-          </UButtonGroup>
-        </UForm>
+          <div />
+        </div>
+
+        <div class="p-2 flex items-center justify-center gap-2 bg-primary-800 rounded-xl">
+          <p class="text-sm">
+            Built with ❤️ by <a
+              href="https://arthurdufour.dev"
+              target="_blank"
+              class="underline"
+              aria-label="Open arthurdufour.dev in a new tab"
+            >Arthur Dufour</a>
+          </p>
+
+          <span class="font-extrabold" aria-hidden="true">●</span>
+
+          <p class="text-sm">
+            version {{ appVersion }}
+          </p>
+        </div>
       </div>
+    </div>
 
-      <div class="flex items-center gap-2">
-        <UButton
-          icon="i-heroicons-clipboard-document-list"
-          @click="copyToClipboard()"
-        >
-          Copy calendar URL
-        </UButton>
+    <!-- ---------------------------------------------------- -->
+    <!-- right side: calendar form -->
+    <!-- ---------------------------------------------------- -->
+    <div class="col-span-3 p-10 flex flex-col gap-5">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-2xl font-bold">
+          Create your calendar
+        </h2>
 
-        <UButton
-          type="submit"
-          icon="i-heroicons-arrow-path"
-          variant="soft"
+        <!-- TODO: implement multiple calendars -->
+        <!-- <UButton
+          size="sm"
           color="neutral"
-          :loading="isLoading"
+          variant="ghost"
+          leading-icon="i-heroicons-arrow-left"
         >
-          Fetch events
-        </UButton>
-
-        <p class="text-sm">
-          Found {{ events.length }} events
-        </p>
+          Back to calendars list
+        </UButton> -->
       </div>
-    </UForm>
+
+      <CalendarForm />
+    </div>
   </div>
 </template>
