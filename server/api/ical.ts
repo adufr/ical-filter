@@ -1,3 +1,4 @@
+import type { ICalEventData } from 'ical-generator'
 import type { VEvent } from 'node-ical'
 import type { Rule } from '~/types'
 import { ICalCalendar } from 'ical-generator'
@@ -39,37 +40,26 @@ export default defineEventHandler(async (event) => {
 
   rules = Array.isArray(rules) ? rules : ([rules] as Rule[])
 
-  // --------------------------------------------------------------------------
-  // 1. fetch and parse the calendar
+  try {
+    // 1. fetch and parse the calendar
+    const ics = await ical.async.fromURL(url)
+    const icsEvents = Object.values(ics).filter((item): item is VEvent => item.type === 'VEVENT')
 
-  const response = await fetch(url.toString())
+    // 2. filter events based on rules
+    const filteredEvents = applyRulesFilters(icsEvents, rules)
 
-  if (!response.ok)
-    throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch calendar data' })
+    // 3. return data as ics
+    const calendar = new ICalCalendar({ name })
 
-  const responseAsText = await response.text()
+    for (const event of filteredEvents) {
+      calendar.createEvent(event as unknown as ICalEventData)
+    }
 
-  const ics = ical.sync.parseICS(responseAsText)
-  const icsEvents = Object.values(ics).filter((item): item is VEvent => item.type === 'VEVENT')
-
-  // --------------------------------------------------------------------------
-  // 2. filter events based on rules
-
-  const filteredEvents = applyRulesFilters(icsEvents, rules)
-
-  // --------------------------------------------------------------------------
-  // 3. return data as ics
-
-  const calendar = new ICalCalendar({ name })
-
-  for (const event of filteredEvents) {
-    calendar.createEvent({
-      start: event.start,
-      end: event.end,
-      summary: event.summary,
-    })
+    setResponseHeader(event, 'content-type', 'text/calendar')
+    return calendar.toString()
   }
-
-  setResponseHeader(event, 'content-type', 'text/calendar')
-  return calendar.toString()
+  catch (error) {
+    console.error('Error fetching ICS:', error)
+    throw createError({ statusCode: 500, statusMessage: 'Failed to fetch calendar data' })
+  }
 })

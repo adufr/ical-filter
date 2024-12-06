@@ -9,21 +9,14 @@ const querySchema = z.object({
 export default defineEventHandler(async (event) => {
   const { url } = await getValidatedQuery(event, query => querySchema.parse(query))
 
-  // --------------------------------------------------------------------------
-  // 1. fetch and parse the calendar
+  try {
+    const ics = await ical.async.fromURL(url)
+    const icsEvents = Object.values(ics).filter((item): item is VEvent => item.type === 'VEVENT')
 
-  const response = await fetch(url.toString())
-
-  if (!response.ok)
-    throw createError({ statusCode: response.status, statusMessage: 'Failed to fetch calendar data' })
-
-  const responseAsText = await response.text()
-
-  const ics = ical.sync.parseICS(responseAsText)
-  const icsEvents = Object.values(ics).filter((item): item is VEvent => item.type === 'VEVENT')
-
-  // --------------------------------------------------------------------------
-  // 2. return data
-
-  return { events: icsEvents }
+    return { events: icsEvents }
+  }
+  catch (error) {
+    console.error('Error fetching ICS:', error)
+    throw createError({ statusCode: 500, statusMessage: 'Failed to fetch calendar data' })
+  }
 })
