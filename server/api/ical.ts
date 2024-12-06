@@ -50,6 +50,7 @@ export default defineEventHandler(async (event) => {
 
     // 3. return data as ics
     const calendar = new ICalCalendar({ name })
+    calendar.timezone('Europe/Paris')
 
     for (const event of filteredEvents) {
       calendar.createEvent(event as unknown as ICalEventData)
