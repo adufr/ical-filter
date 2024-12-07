@@ -5,26 +5,7 @@ import { ICalCalendar } from 'ical-generator'
 import ical from 'node-ical'
 import { z } from 'zod'
 import { applyRulesFilters } from '~/utils/rules'
-
-const stringToJSONSchema = z.string()
-  .transform((str, ctx): z.infer<ReturnType<typeof JSON.parse>> => {
-    try {
-      return JSON.parse(str)
-    }
-    catch {
-      ctx.addIssue({ code: 'custom', message: 'Invalid JSON' })
-      return z.NEVER
-    }
-  })
-
-const ruleSchema = stringToJSONSchema.pipe(
-  z.object({
-    f: z.enum(['s', 'd', 'l']),
-    t: z.enum(['c', '=', '!', 's', 'e']),
-    cs: z.boolean(),
-    v: z.string(), // TODO: make rule optional and filter out all rules with empty values
-  }),
-)
+import { ruleSchema } from '~/utils/schemas'
 
 const querySchema = z.object({
   name: z.string(),

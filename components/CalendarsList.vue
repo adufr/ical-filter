@@ -7,7 +7,7 @@ const { calendars, activeCalendar } = useCalendars()
 
 function editCalendar(calendar: Calendar) {
   activeCalendar.value = calendar
-  router.push('/new')
+  router.push(`/edit/${calendar.id}`)
 }
 
 function deleteCalendar(calendar: Calendar) {

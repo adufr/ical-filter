@@ -5,47 +5,42 @@ import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
 
 const toast = useToast()
-
 const { activeCalendar, calendars } = useCalendars()
 
-const isLoading = ref(false)
-const events = ref([] as VEvent[])
-const formState = reactive<Partial<FormSchema>>(activeCalendar.value)
+const formParams = computed(() => ({ url: activeCalendar.value.url }))
+
+const { data, status, error } = useLazyFetch('/api/cal', {
+  params: formParams,
+})
+
+const filteredEvents = computed(() => {
+  const rulesToApply = (activeCalendar.value.rules ?? []).filter(rule => rule.v)
+  return applyRulesFilters((data.value?.events ?? []) as unknown as VEvent[], rulesToApply)
+})
+
+// --------------------------------------------------------------------------
+// Rules
+
+const ruleFieldsItems = computed<Array<{ label: string, value: RuleField }>>(
+  () => Object.entries(ruleFields).map(([label, value]) => ({ label, value })),
+)
+const ruleTypesItems = computed<Array<{ label: string, value: RuleType }>>(
+  () => Object.entries(ruleTypes).map(([label, value]) => ({ label, value })),
+)
+const ruleCsItems = computed<Array<{ label: string, value: boolean }>>(
+  () => [{ label: 'case sensitive', value: true }, { label: 'case insensitive', value: false }],
+)
 
 function addRule() {
-  formState.rules?.push({ f: 's', t: 'c', cs: true, v: '' })
+  activeCalendar.value.rules?.push({ f: 's', t: 'c', cs: true, v: '' })
 }
 
 function removeRule(index: number) {
-  formState.rules?.splice(index, 1)
+  activeCalendar.value.rules?.splice(index, 1)
 }
 
-const ruleFieldsItems = computed<Array<{ label: string, value: RuleField }>>(() => Object.entries(ruleFields).map(([label, value]) => ({ label, value })))
-const ruleTypesItems = computed<Array<{ label: string, value: RuleType }>>(() => Object.entries(ruleTypes).map(([label, value]) => ({ label, value })))
-const ruleCsItems = computed<Array<{ label: string, value: boolean }>>(() => [{ label: 'case sensitive', value: true }, { label: 'case insensitive', value: false }])
-
-async function fetchCalendar() {
-  events.value = []
-  isLoading.value = true
-  try {
-    const { events: fetchedEvents } = await $fetch(`/api/cal`, {
-      query: {
-        url: formState.url,
-      },
-    })
-
-    events.value = fetchedEvents as unknown as VEvent[]
-  }
-  finally {
-    isLoading.value = false
-  }
-}
-
-onMounted(() => {
-  if (formState.url) {
-    fetchCalendar()
-  }
-})
+// --------------------------------------------------------------------------
+// Submit form
 
 async function submitForm(event: FormSubmitEvent<FormSchema>) {
   activeCalendar.value = event.data
@@ -68,7 +63,7 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
 <template>
   <UForm
     :schema="formSchema"
-    :state="formState"
+    :state="activeCalendar"
     class="size-full flex flex-col justify-between gap-5"
     @submit="submitForm"
   >
@@ -76,7 +71,7 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     <div class="flex-grow flex flex-col gap-6 overflow-y-auto">
       <UFormField label="Calendar name" name="name">
         <UInput
-          v-model="formState.name"
+          v-model="activeCalendar.name"
           class="w-full"
           placeholder="Give your calendar a name..."
           leading-icon="i-heroicons-pencil-square"
@@ -89,31 +84,38 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
           name="url"
         >
           <UInput
-            v-model="formState.url"
+            v-model="activeCalendar.url"
             class="w-full"
             placeholder="Enter your iCalendar URL..."
             leading-icon="i-heroicons-link"
-            @change="fetchCalendar()"
           />
         </UFormField>
 
-        <!-- TODO: correctly implement this feature -->
-        <!-- <p class="mt-1 text-sm text-gray-400">
-          {{ formState.url
-            ? isLoading
-              ? 'Fetching events...'
-              : `Found ${events.length} events `
-            : 'Start by entering an iCalendar URL' }}
-        </p> -->
+        <div class="mt-1 text-sm text-gray-400">
+          <p v-if="!activeCalendar.url">
+            Start by entering an iCalendar URL
+          </p>
+
+          <div v-else-if="status === 'pending'" class="flex items-center gap-1">
+            <UIcon name="i-svg-spinners-270-ring-with-bg" />
+            <p>Fetching events...</p>
+          </div>
+          <p v-else-if="error">
+            An error occured while fetching events
+          </p>
+          <p v-else>
+            Found a total of {{ data?.events.length }} events
+          </p>
+        </div>
       </div>
 
       <!-- rules -->
-      <div class="space-y-1 h-full">
-        <label class="block font-medium text-sm">Filtering rules</label>
+      <div class="h-full">
+        <label class="block mb-1 font-medium text-sm">Filtering rules</label>
         <!-- TODO: add a tooltip explaining the filtering rules -->
 
         <UForm
-          v-for="(rule, index) in formState.rules"
+          v-for="(rule, index) in activeCalendar.rules"
           :key="index"
           :state="rule"
           :schema="ruleSchema"
@@ -161,15 +163,21 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
           </UButtonGroup>
         </UForm>
 
-        <UButton
-          size="sm"
-          variant="ghost"
-          color="neutral"
-          icon="i-heroicons-plus"
-          @click="addRule()"
-        >
-          Add rule
-        </UButton>
+        <div class="flex items-center  gap-2">
+          <p class="text-sm text-gray-400">
+            Found {{ filteredEvents.length }} events matching rules
+          </p>
+
+          <UButton
+            size="sm"
+            variant="ghost"
+            color="neutral"
+            icon="i-heroicons-plus"
+            @click="addRule()"
+          >
+            Add rule
+          </UButton>
+        </div>
       </div>
     </div>
 

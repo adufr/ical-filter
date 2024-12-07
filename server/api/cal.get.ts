@@ -17,6 +17,6 @@ export default defineEventHandler(async (event) => {
   }
   catch (error) {
     console.error('Error fetching ICS:', error)
-    throw createError({ statusCode: 500, statusMessage: 'Failed to fetch calendar data' })
+    throw createError({ statusCode: 400, statusMessage: 'Failed to fetch calendar data' })
   }
 })
