@@ -13,10 +13,8 @@ const { data, status, error } = useLazyFetch('/api/cal', {
   params: formParams,
 })
 
-const filteredEvents = computed(() => {
-  const rulesToApply = (activeCalendar.value.rules ?? []).filter(rule => rule.v)
-  return applyRulesFilters((data.value?.events ?? []) as unknown as VEvent[], rulesToApply)
-})
+const filteredRules = computed(() => (activeCalendar.value.rules ?? []).filter(rule => rule.v))
+const filteredEvents = computed(() => applyRulesFilters((data.value?.events ?? []) as unknown as VEvent[], filteredRules.value))
 
 // --------------------------------------------------------------------------
 // Rules
@@ -93,15 +91,15 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
 
         <div class="mt-1 text-sm text-gray-400">
           <p v-if="!activeCalendar.url">
-            Start by entering an iCalendar URL
+            Enter an iCalendar URL
           </p>
 
           <div v-else-if="status === 'pending'" class="flex items-center gap-1">
             <UIcon name="i-svg-spinners-270-ring-with-bg" />
             <p>Fetching events...</p>
           </div>
-          <p v-else-if="error">
-            An error occured while fetching events
+          <p v-else-if="error" class="text-red-500 dark:text-red-400">
+            An error has occured: make sure the URL is a valid iCalendar URL
           </p>
           <p v-else>
             Found a total of {{ data?.events.length }} events
@@ -164,7 +162,7 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
         </UForm>
 
         <div class="flex items-center  gap-2">
-          <p class="text-sm text-gray-400">
+          <p v-if="activeCalendar.rules?.length > 0" class="text-sm text-gray-400">
             Found {{ filteredEvents.length }} events matching rules
           </p>
 
