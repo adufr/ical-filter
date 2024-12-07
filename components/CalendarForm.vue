@@ -11,6 +11,7 @@ const formParams = computed(() => ({ url: activeCalendar.value.url }))
 
 const { data, status, error } = useLazyFetch('/api/cal', {
   params: formParams,
+  immediate: Boolean(activeCalendar.value.url),
 })
 
 const filteredRules = computed(() => (activeCalendar.value.rules ?? []).filter(rule => rule.v))
