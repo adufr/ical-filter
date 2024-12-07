@@ -23,6 +23,14 @@ definePageMeta({
       </UButton>
     </div>
 
-    <CalendarForm />
+    <ClientOnly>
+      <CalendarForm />
+
+      <template #fallback>
+        <div class="flex justify-center items-center h-full">
+          <UIcon name="i-svg-spinners-270-ring-with-bg" />
+        </div>
+      </template>
+    </ClientOnly>
   </div>
 </template>
