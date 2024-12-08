@@ -5,14 +5,14 @@ import { ICalCalendar } from 'ical-generator'
 import ical from 'node-ical'
 import { z } from 'zod'
 import { applyRulesFilters } from '~/utils/rules'
-import { ruleSchema } from '~/utils/schemas'
+import { ruleSchema, stringToJSONSchema } from '~/utils/schemas'
 
 const querySchema = z.object({
   name: z.string(),
   url: z.string().url(),
   rules: z.union([
-    ruleSchema,
-    z.array(ruleSchema),
+    stringToJSONSchema.pipe(ruleSchema),
+    z.array(stringToJSONSchema.pipe(ruleSchema)),
   ]),
 })
 
