@@ -1,7 +1,7 @@
 {
   "name": "ical-filter",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "packageManager": "pnpm@9.14.2",
   "scripts": {
