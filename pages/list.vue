@@ -33,16 +33,18 @@ function createCalendar() {
 
     <ClientOnly>
       <div v-if="calendars.length === 0">
-        <p>
-          You don't have any calendars yet.
-        </p>
+        <p>You don't have any calendars yet.</p>
       </div>
 
       <CalendarsList v-else />
 
       <template #fallback>
-        <div class="flex justify-center items-center h-full">
-          <UIcon name="i-svg-spinners-270-ring-with-bg" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <USkeleton class="h-24 animate-pulse" />
+          <USkeleton class="h-24 animate-pulse" />
+          <USkeleton class="h-24 animate-pulse" />
+          <USkeleton class="h-24 animate-pulse" />
+          <USkeleton class="h-24 animate-pulse" />
         </div>
       </template>
     </ClientOnly>
