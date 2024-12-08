@@ -36,39 +36,25 @@ function copyToClipboard(calendar: Calendar) {
 </script>
 
 <template>
-  <ul class="flex flex-col gap-2">
+  <ul class="grid grid-cols-1 md:grid-cols-3 gap-5">
     <li
       v-for="(calendar, index) in calendars"
       :key="index"
-      class="flex items-center justify-between gap-2 border border-gray-300 dark:border-gray-700 pl-4 rounded-lg"
+      class="flex items-center justify-between gap-2 bg-white hover:bg-slate-100 border border-gray-50 shadow dark:border-none dark:bg-slate-800 dark:hover:bg-slate-700 p-4 md:p-5 rounded-lg transition-colors duration-150 cursor-pointer"
+      role="button"
+      :aria-label="`Edit calendar: ${calendar.name}`"
+      @click="editCalendar(calendar)"
     >
-      <p class="py-1">
-        {{ calendar.name }}
-      </p>
+      <div>
+        <p class="text-xs">
+          Calendar
+        </p>
+        <h2 class="text-lg font-semibold">
+          {{ calendar.name }}
+        </h2>
+      </div>
 
-      <UButtonGroup class="h-full">
-        <UButton
-          icon="i-heroicons-clipboard-document-list"
-          variant="soft"
-          color="neutral"
-          class="hover:cursor-pointer"
-          @click="copyToClipboard(calendar)"
-        />
-        <UButton
-          icon="i-heroicons-pencil"
-          variant="soft"
-          color="neutral"
-          class="hover:cursor-pointer"
-          @click="editCalendar(calendar)"
-        />
-        <UButton
-          icon="i-heroicons-trash"
-          variant="soft"
-          color="neutral"
-          class="hover:cursor-pointer"
-          @click="deleteCalendar(calendar)"
-        />
-      </UButtonGroup>
+      <UIcon name="i-heroicons-pencil-square" />
     </li>
   </ul>
 </template>
