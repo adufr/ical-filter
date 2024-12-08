@@ -1,5 +1,7 @@
 <template>
-  <div class="h-screen w-screen flex items-center justify-center ">
-    <NuxtPage />
+  <div class="h-screen flex flex-col">
+    <AppHeader />
+
+    <NuxtPage class="px-5 md:px-52 py-5" />
   </div>
 </template>

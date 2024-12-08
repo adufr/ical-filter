@@ -9,6 +9,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  app: {
+    pageTransition: { name: 'slide', mode: 'out-in' },
+  },
+
   typescript: {
     typeCheck: false,
   },
