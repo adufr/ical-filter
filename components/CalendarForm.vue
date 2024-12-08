@@ -64,12 +64,25 @@ function deleteCalendar() {
 
   // TODO: add an undo button
   toast.add({
-    title: 'Calendar deleted',
+    title: 'Success',
     description: 'The calendar has been deleted',
     color: 'success',
   })
 
   router.push('/list')
+}
+
+function copyCalendarLink() {
+  const apiUrl = getCalendarUrl(activeCalendar.value)
+  const domain = window.location.origin
+
+  navigator.clipboard.writeText(`${domain}${apiUrl}`)
+
+  toast.add({
+    title: 'Success',
+    description: 'Calendar URL copied to your clipboard',
+    color: 'success',
+  })
 }
 </script>
 
@@ -202,6 +215,14 @@ function deleteCalendar() {
 
       <UButton
         variant="soft"
+        icon="i-heroicons-link"
+        @click="copyCalendarLink()"
+      >
+        Copy calendar link
+      </UButton>
+
+      <UButton
+        variant="ghost"
         icon="i-heroicons-trash"
         @click="deleteCalendar()"
       >

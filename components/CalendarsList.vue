@@ -1,26 +1,12 @@
 <script lang="ts" setup>
 import type { Calendar } from '~/types'
 
-const toast = useToast()
 const router = useRouter()
 const { calendars, activeCalendar } = useCalendars()
 
 function editCalendar(calendar: Calendar) {
   activeCalendar.value = calendar
   router.push(`/edit/${calendar.id}`)
-}
-
-function copyToClipboard(calendar: Calendar) {
-  const apiUrl = getCalendarUrl(calendar)
-  const domain = window.location.origin
-
-  navigator.clipboard.writeText(`${domain}${apiUrl}`)
-
-  toast.add({
-    title: 'Calendar URL copied',
-    description: 'The calendar URL has been copied to your clipboard',
-    color: 'success',
-  })
 }
 </script>
 
