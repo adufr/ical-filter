@@ -9,7 +9,7 @@ export const ruleFields = {
   description: 'd',
   location: 'l',
 } as const
-type RuleField = keyof typeof ruleFields
+export type RuleField = typeof ruleFields[keyof typeof ruleFields]
 
 // TODO: regex
 export const ruleTypes = {
@@ -19,17 +19,18 @@ export const ruleTypes = {
   startsWith: 's',
   endsWith: 'e',
 } as const
-type RuleType = keyof typeof ruleTypes
-
-export const ruleActions = {
-  include: 'i',
-  exclude: 'e',
-} as const
-type RuleAction = keyof typeof ruleActions
+export type RuleType = typeof ruleTypes[keyof typeof ruleTypes]
 
 export interface Rule {
-  field: RuleField
-  type: RuleType
-  action: RuleAction
-  value: string
+  f: RuleField
+  t: RuleType
+  cs: boolean
+  v: string
+}
+
+export interface Calendar {
+  id?: string
+  url: string
+  name: string
+  rules: Rule[]
 }

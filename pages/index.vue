@@ -1,110 +1,79 @@
 <script lang="ts" setup>
-import type { Rule } from '~/types'
+const toast = useToast()
 
-const isLoading = ref(false)
-const domain = ref('')
+// const config = useRuntimeConfig()
+// const appVersion = config.public.appVersion
 
-const url = useLocalStorage('icalfilter.url', '')
-const rules = useLocalStorage('icalfilter.rules', [{ field: 'summary', type: 'contains', action: 'include', value: '' }] as Rule[])
-const events = ref([])
-
-onMounted(() => {
-  domain.value = window.location.origin
-})
-
-function addRule() {
-  rules.value.push({
-    field: 'summary',
-    type: 'contains',
-    action: 'include',
-    value: '',
+function startTour() {
+  toast.add({
+    title: 'Not implemented yet!',
+    description: 'This feature will be available soon.',
+    color: 'warning',
   })
-}
-
-function removeRule(index: number) {
-  rules.value.splice(index, 1)
-}
-
-const queryParams = computed(() => {
-  const params = new URLSearchParams()
-  params.set('url', url.value)
-
-  const r = rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))
-  for (const rule of r)
-    params.append('rules', JSON.stringify(rule))
-
-  return params
-})
-
-const icalUrl = computed(() => `${domain.value}/api/ical?${queryParams.value}`)
-
-const { copy: copyIcalUrl, isSupported: isClipboardSupported } = useClipboard({ source: icalUrl })
-
-async function generateAndCopyLink() {
-  if (!isClipboardSupported.value) {
-    useToast().add({ title: 'Clipboard not supported', color: 'info' })
-    return
-  }
-
-  isLoading.value = true
-  try {
-    const { events: fetchedEvents } = await $fetch(`/api/cal`, {
-      query: {
-        url: url.value,
-        rules: [...rules.value.map(rule => ({ f: rule.field[0], t: rule.type[0], a: rule.action[0], v: rule.value }))],
-      },
-    })
-
-    // @ts-expect-error FIXME
-    events.value = fetchedEvents
-
-    copyIcalUrl()
-    useToast().add({ title: 'URL copied to clipboard', color: 'success' })
-  }
-  finally {
-    isLoading.value = false
-  }
 }
 </script>
 
 <template>
-  <div class="container flex flex-col gap-10">
-    <!-- set url and fetch events -->
-    <div class="flex flex-col gap-2">
-      <p>Enter URL:</p>
+  <div class="h-screen -mt-20 md:-mt-32 flex items-center justify-center">
+    <div class="flex flex-col items-center text-center gap-8 md:gap-10">
+      <!-- <UBadge
+        color="primary"
+        variant="subtle"
+        size="lg"
+        class="rounded-full"
+      >
+        Version {{ appVersion }}
+      </UBadge> -->
 
-      <UInput v-model="url" type="url" />
-    </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold">
+        Filter events from<br>
+        <span class="text-primary-500">any iCalendar feed</span>
+      </h1>
 
-    <!-- edit rules -->
-    <div class="flex flex-col gap-2">
-      <p>Edit rules:</p>
+      <p>
+        Add customizable filtering rules to existing iCalendar links<br>
+        No account required, free forever
+      </p>
 
-      <div class="flex flex-col gap-2">
-        <Rule
-          v-for="(rule, index) in rules"
-          :key="index"
-          v-model="rules[index]"
-          @remove="removeRule(index)"
-        />
+      <div class="flex flex-col items-center gap-2">
+        <div class="flex flex-col md:flex-row items-center gap-2">
+          <UButton
+            icon="i-heroicons-plus"
+            color="primary"
+            to="/new"
+          >
+            Create a calendar
+          </UButton>
+
+          <UButton
+            leading-icon="i-heroicons-arrow-right"
+            color="neutral"
+            variant="ghost"
+            @click="startTour()"
+          >
+            See how to use it
+          </UButton>
+        </div>
+
+        <UButton
+          variant="link"
+          color="neutral"
+          size="sm"
+          to="/list"
+        >
+          Already have calendars? Manage them here
+        </UButton>
       </div>
 
       <div>
-        <UButton @click="addRule">
-          Add rule
-        </UButton>
+        <p class="text-sm">
+          Built with ❤️ by <a
+            href="https://arthurdufour.dev"
+            target="_blank"
+            class="hover:underline"
+          >Arthur Dufour</a>
+        </p>
       </div>
-    </div>
-
-    <!-- get calendar url -->
-    <div class="flex flex-col gap-2">
-      <div>
-        <UButton :loading="isLoading" leading-icon="i-heroicons-clipboard-document-list" @click="generateAndCopyLink()">
-          Copy calendar URL
-        </UButton>
-      </div>
-
-      <p>Found {{ events.length }} events</p>
     </div>
   </div>
 </template>

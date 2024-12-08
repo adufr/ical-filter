@@ -1,0 +1,13 @@
+<template>
+  <div>
+    <UButton
+      icon="i-simple-icons-github"
+      color="neutral"
+      variant="ghost"
+      href="https://github.com/adufr/ical-filter"
+      target="_blank"
+    >
+      Repo
+    </UButton>
+  </div>
+</template>

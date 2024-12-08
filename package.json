@@ -1,7 +1,7 @@
 {
   "name": "ical-filter",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@9.14.2",
   "scripts": {
@@ -12,7 +12,8 @@
     "postinstall": "nuxt prepare",
     "lint": "./node_modules/.bin/eslint --no-fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
     "lint:fix": "./node_modules/.bin/eslint --fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
-    "type-check": "./node_modules/.bin/tsc --noEmit"
+    "type-check": "./node_modules/.bin/tsc --noEmit",
+    "test": "vitest"
   },
   "dependencies": {
     "@nuxt/ui": "3.0.0-alpha.9",
@@ -27,9 +28,11 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
     "@nuxt/eslint": "^0.7.2",
+    "@nuxt/test-utils": "^3.14.4",
     "@nuxthub/core": "^0.8.7",
     "@nuxtjs/plausible": "^1.2.0",
     "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
     "vue-tsc": "^2.1.10",
     "wrangler": "^3.91.0"
   }
