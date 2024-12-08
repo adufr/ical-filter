@@ -32,11 +32,13 @@ function createCalendar() {
     </PageHeader>
 
     <ClientOnly>
-      <div v-if="calendars.length === 0">
-        <p>You don't have any calendars yet.</p>
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <p v-if="calendars.length === 0">
+          No calendars yet, start by creating one
+        </p>
 
-      <CalendarsList v-else />
+        <CalendarsList v-else />
+      </div>
 
       <template #fallback>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
