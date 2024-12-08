@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+useSeoMeta({
+  title: 'iCal Filter',
+  description: 'Add customizable filtering rules to existing iCalendar links. No account required, completely free',
+})
+
 const toast = useToast()
 
 // const config = useRuntimeConfig()
@@ -32,7 +37,7 @@ function startTour() {
 
       <p>
         Add customizable filtering rules to existing iCalendar links<br>
-        No account required, free forever
+        No account required, completely free
       </p>
 
       <div class="flex flex-col items-center gap-2">

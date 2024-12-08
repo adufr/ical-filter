@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-definePageMeta({
-  title: 'Edit calendar - iCalFilter',
-  description: 'Edit your calendar',
+useSeoMeta({
+  title: 'Edit calendar - iCal Filter',
+  description: 'Edit your calendar, add or remove rules, and save the changes.',
 })
 
 const route = useRoute()

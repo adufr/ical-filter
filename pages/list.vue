@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-definePageMeta({
-  title: 'List - iCalFilter',
-  description: 'Manage your calendars',
+useSeoMeta({
+  title: 'Calendars list - iCal Filter',
+  description: 'List of all your calendars with the number of events and the number of events that match the filtering rules.',
 })
 
 const router = useRouter()

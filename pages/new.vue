@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-definePageMeta({
-  title: 'New calendar - iCalFilter',
-  description: 'Create a calendar',
+useSeoMeta({
+  title: 'New calendar - iCal Filter',
+  description: 'Create a calendar with a custom name and URL, and add filtering rules.',
 })
 </script>
 
