@@ -9,17 +9,25 @@ const isDark = computed({
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   },
 })
+
+defineShortcuts({
+  meta_shift_l: () => {
+    isDark.value = !isDark.value
+  },
+})
 </script>
 
 <template>
   <ClientOnly v-if="!colorMode?.forced">
-    <UButton
-      :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'"
-      color="neutral"
-      variant="ghost"
-      :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
-      @click="isDark = !isDark"
-    />
+    <UTooltip :kbds="['meta', 'shift', 'l']" :text="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+      <UButton
+        :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'"
+        color="neutral"
+        variant="ghost"
+        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+        @click="isDark = !isDark"
+      />
+    </UTooltip>
 
     <template #fallback>
       <div class="size-8" />
