@@ -21,14 +21,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col gap-5">
-    <div class="flex items-center justify-between gap-2">
-      <h2 class="text-2xl font-bold">
-        Edit calendar
-      </h2>
-
+  <div class="flex flex-col gap-5">
+    <PageHeader title="Edit calendar">
       <UButton
-        to="/"
+        to="/list"
         icon="i-heroicons-arrow-left"
         color="neutral"
         variant="soft"
@@ -36,7 +32,7 @@ onMounted(() => {
       >
         Back to calendars list
       </UButton>
-    </div>
+    </PageHeader>
 
     <ClientOnly>
       <CalendarForm />

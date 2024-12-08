@@ -67,7 +67,7 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     @submit="submitForm"
   >
     <!-- inputs -->
-    <div class="flex-grow flex flex-col gap-6 overflow-y-auto">
+    <div class="flex flex-col gap-6">
       <UFormField label="Calendar name" name="name">
         <UInput
           v-model="activeCalendar.name"
