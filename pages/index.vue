@@ -36,7 +36,7 @@ function startTour() {
       </p>
 
       <div class="flex flex-col items-center gap-2">
-        <div class="flex flex-col md:flow-row items-center gap-2">
+        <div class="flex flex-col md:flex-row items-center gap-2">
           <UButton
             icon="i-heroicons-plus"
             color="primary"
