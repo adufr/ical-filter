@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
-import type { RuleField, RuleType } from '~/types'
+import type { Calendar, RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
 
 const toast = useToast()
+const router = useRouter()
 const { activeCalendar, calendars } = useCalendars()
 
 const formParams = computed(() => ({ url: activeCalendar.value.url }))
@@ -39,9 +40,9 @@ function removeRule(index: number) {
 }
 
 // --------------------------------------------------------------------------
-// Submit form
+// Actions
 
-async function submitForm(event: FormSubmitEvent<FormSchema>) {
+async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
   activeCalendar.value = event.data
   const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
   if (existingCalendarIndex >= 0) {
@@ -57,6 +58,19 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     color: 'success',
   })
 }
+
+function deleteCalendar() {
+  calendars.value = calendars.value.filter(cal => cal.id !== activeCalendar.value.id)
+
+  // TODO: add an undo button
+  toast.add({
+    title: 'Calendar deleted',
+    description: 'The calendar has been deleted',
+    color: 'success',
+  })
+
+  router.push('/list')
+}
 </script>
 
 <template>
@@ -64,7 +78,7 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     :schema="formSchema"
     :state="activeCalendar"
     class="size-full flex flex-col justify-between gap-5"
-    @submit="submitForm"
+    @submit="saveCalendar"
   >
     <!-- inputs -->
     <div class="flex flex-col gap-6">
@@ -181,9 +195,17 @@ async function submitForm(event: FormSubmitEvent<FormSchema>) {
     </div>
 
     <!-- buttons -->
-    <div>
+    <div class="flex items-center gap-2">
       <UButton type="submit" icon="i-heroicons-bookmark">
         Save calendar
+      </UButton>
+
+      <UButton
+        variant="soft"
+        icon="i-heroicons-trash"
+        @click="deleteCalendar()"
+      >
+        Delete calendar
       </UButton>
     </div>
   </UForm>

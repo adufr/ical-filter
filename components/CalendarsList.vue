@@ -10,17 +10,6 @@ function editCalendar(calendar: Calendar) {
   router.push(`/edit/${calendar.id}`)
 }
 
-function deleteCalendar(calendar: Calendar) {
-  calendars.value = calendars.value.filter(cal => cal.id !== calendar.id)
-
-  // TODO: add an undo button
-  toast.add({
-    title: 'Calendar deleted',
-    description: 'The calendar has been deleted',
-    color: 'success',
-  })
-}
-
 function copyToClipboard(calendar: Calendar) {
   const apiUrl = getCalendarUrl(calendar)
   const domain = window.location.origin
