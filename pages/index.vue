@@ -5,6 +5,8 @@ useSeoMeta({
 })
 
 const toast = useToast()
+const router = useRouter()
+const { activeCalendar } = useCalendars()
 
 // const config = useRuntimeConfig()
 // const appVersion = config.public.appVersion
@@ -15,6 +17,17 @@ function startTour() {
     description: 'This feature will be available soon.',
     color: 'warning',
   })
+}
+
+function createCalendar() {
+  activeCalendar.value = {
+    id: crypto.randomUUID(),
+    name: '',
+    url: '',
+    rules: [],
+  }
+
+  router.push('/new')
 }
 </script>
 
@@ -45,7 +58,7 @@ function startTour() {
           <UButton
             icon="i-heroicons-plus"
             color="primary"
-            to="/new"
+            @click="createCalendar()"
           >
             Create a calendar
           </UButton>
