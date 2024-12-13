@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
-import type { Calendar, RuleField, RuleType } from '~/types'
+import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
 
 const toast = useToast()
