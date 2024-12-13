@@ -3,10 +3,12 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
 import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
+import NewCalendarModal from './NewCalendarModal.vue'
 
 const toast = useToast()
+const modal = useModal()
 const router = useRouter()
-const { activeCalendar, calendars } = useCalendars()
+const { activeCalendar, calendars, copyCalendarLink } = useCalendars()
 
 const formParams = computed(() => ({ url: activeCalendar.value.url }))
 
@@ -52,11 +54,7 @@ async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
     calendars.value.push(activeCalendar.value)
   }
 
-  toast.add({
-    title: 'Success',
-    description: 'Your calendar has been saved',
-    color: 'success',
-  })
+  modal.open(NewCalendarModal)
 }
 
 function deleteCalendar() {
@@ -70,19 +68,6 @@ function deleteCalendar() {
   })
 
   router.push('/list')
-}
-
-function copyCalendarLink() {
-  const apiUrl = getCalendarUrl(activeCalendar.value)
-  const domain = window.location.origin
-
-  navigator.clipboard.writeText(`${domain}${apiUrl}`)
-
-  toast.add({
-    title: 'Success',
-    description: 'Calendar URL copied to your clipboard',
-    color: 'success',
-  })
 }
 </script>
 
