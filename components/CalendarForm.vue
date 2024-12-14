@@ -5,6 +5,10 @@ import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
 import NewCalendarModal from './NewCalendarModal.vue'
 
+const props = defineProps<{
+  mode: 'new' | 'edit'
+}>()
+
 const toast = useToast()
 const modal = useModal()
 const router = useRouter()
@@ -45,13 +49,17 @@ function removeRule(index: number) {
 // Actions
 
 async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
-  activeCalendar.value = event.data
-  const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
-  if (existingCalendarIndex >= 0) {
-    calendars.value[existingCalendarIndex] = activeCalendar.value
+  if (props.mode === 'new') {
+    calendars.value.push({
+      id: crypto.randomUUID(),
+      ...event.data,
+    })
   }
-  else {
-    calendars.value.push(activeCalendar.value)
+  else if (props.mode === 'edit') {
+    const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
+    if (existingCalendarIndex !== -1) {
+      calendars.value[existingCalendarIndex] = event.data
+    }
   }
 
   modal.open(NewCalendarModal)
