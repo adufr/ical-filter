@@ -8,9 +8,6 @@ const toast = useToast()
 const router = useRouter()
 const { activeCalendar } = useCalendars()
 
-// const config = useRuntimeConfig()
-// const appVersion = config.public.appVersion
-
 function startTour() {
   toast.add({
     title: 'Not implemented yet!',
@@ -29,21 +26,25 @@ function createCalendar() {
 
   router.push('/new')
 }
+
+const accordionItems = ref([
+  {
+    icon: 'i-heroicons-question-mark-circle',
+    label: 'What problem does this solve?',
+    content: 'iCalFilter addresses the issue of iCalendar feeds that include too many events, making it difficult to focus on what matters to you. With iCalFilter, you can apply custom filtering rules to extract only the events that match your criteria, while still benefiting from live updates.\nThis ensures you receive just the information you need, without losing the convenience of dynamic calendar synchronization.',
+  },
+  {
+    icon: 'i-heroicons-cog',
+    label: 'How does it work?',
+    content: 'Simply provide your existing iCalendar URL and define your filtering rules. iCalFilter generates a new URL with all your settings encoded. When this URL is accessed, it fetches your original iCalendar feed, applies your rules to filter the events, and produces a tailored iCalendar feed. You can then import this new URL into your favorite calendar app, and it will automatically stay up-to-date with your customized feed.',
+  },
+])
 </script>
 
 <template>
-  <div>
-    <div class="h-screen -mt-20 md:-mt-32 flex items-center justify-center">
+  <div class="flex flex-col gap-20 md:gap-40">
+    <div class="mt-14 sm:mt-24 md:mt-32 md:mb-10 flex items-center justify-center">
       <div class="flex flex-col items-center text-center gap-8 md:gap-10">
-        <!-- <UBadge
-        color="primary"
-        variant="subtle"
-        size="lg"
-        class="rounded-full"
-      >
-        Version {{ appVersion }}
-      </UBadge> -->
-
         <h1 class="text-4xl md:text-5xl font-extrabold">
           Filter events from<br>
           <span class="text-primary-500">any iCalendar feed</span>
@@ -97,7 +98,7 @@ function createCalendar() {
     </div>
 
     <div class="flex flex-col items-center justify-center gap-10">
-      <div class="flex flex-col items-center gap-2">
+      <div class="flex flex-col items-center text-center gap-2">
         <h2 class="text-2xl font-extrabold">
           Why iCalFilter?
         </h2>
@@ -112,11 +113,11 @@ function createCalendar() {
           title="Powerful filtering"
           description="Customizable filtering rules, supports regex"
         />
-        <!-- <LandingCard
+        <LandingCard
           icon="i-heroicons-calendar"
           title="Events preview"
           description="Preview events to help filtering"
-        /> -->
+        />
         <LandingCard
           icon="i-heroicons-user"
           title="No account required"
@@ -133,6 +134,22 @@ function createCalendar() {
           description="No ads, all code is available on GitHub"
         />
       </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center gap-10">
+      <div class="flex flex-col items-center text-center gap-2">
+        <h2 class="text-2xl font-extrabold">
+          Frequently asked questions
+        </h2>
+        <p>
+          Here are some frequently asked questions about iCalFilter.
+        </p>
+      </div>
+
+      <UAccordion
+        :items="accordionItems"
+        class="max-w-3xl whitespace-pre-line"
+      />
     </div>
   </div>
 </template>
