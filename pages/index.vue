@@ -4,17 +4,8 @@ useSeoMeta({
   description: 'Add customizable filtering rules to existing iCalendar links. No account required, completely free',
 })
 
-const toast = useToast()
 const router = useRouter()
 const { activeCalendar } = useCalendars()
-
-function startTour() {
-  toast.add({
-    title: 'Not implemented yet!',
-    description: 'This feature will be available soon.',
-    color: 'warning',
-  })
-}
 
 function createCalendar() {
   activeCalendar.value = {
@@ -68,31 +59,22 @@ const accordionItems = ref([
             <UButton
               leading-icon="i-heroicons-arrow-right"
               color="neutral"
-              variant="ghost"
-              @click="startTour()"
+              variant="soft"
+              to="/list"
             >
-              See how to use it
+              See your calendars
             </UButton>
           </div>
 
-          <UButton
-            variant="link"
-            color="neutral"
-            size="sm"
-            to="/list"
-          >
-            Already have calendars? Manage them here
-          </UButton>
-        </div>
-
-        <div>
-          <p class="text-sm">
-            Built with ❤️ by <a
-              href="https://arthurdufour.dev"
-              target="_blank"
-              class="hover:underline"
-            >Arthur Dufour</a>
-          </p>
+          <div class="mt-2">
+            <p class="text-xs text-slate-400">
+              Built with ❤️ by <a
+                href="https://arthurdufour.dev"
+                target="_blank"
+                class="underline"
+              >Arthur Dufour</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -136,7 +118,7 @@ const accordionItems = ref([
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center gap-10">
+    <div class="flex flex-col items-center justify-center gap-10 mb-20 md:mb-40">
       <div class="flex flex-col items-center text-center gap-2">
         <h2 class="text-2xl font-extrabold">
           Frequently asked questions
