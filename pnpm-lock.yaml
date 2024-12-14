@@ -29,6 +29,9 @@ importers:
       nuxt:
         specifier: ^3.14.1592
         version: 3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.10.2)(eslint@9.16.0(jiti@2.4.1))(ioredis@5.4.1)(lightningcss@1.28.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.28.1)(terser@5.37.0)(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.28.2)(terser@5.37.0))(vue-tsc@2.1.10(typescript@5.7.2))
+      nuxt-schema-org:
+        specifier: 4.0.4
+        version: 4.0.4(@unhead/vue@1.11.14(vue@3.5.13(typescript@5.7.2)))(magicast@0.3.5)(rollup@4.28.1)(unhead@1.11.14)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.28.2)(terser@5.37.0))(vue@3.5.13(typescript@5.7.2))
       vue:
         specifier: 3.5.13
         version: 3.5.13(typescript@5.7.2)
@@ -1405,6 +1408,15 @@ packages:
 
   '@unhead/dom@1.11.14':
     resolution: {integrity: sha512-FaHCWo9JR4h7PCpSRaXuMC6ifXOuBzlI0PD1MmUcxND2ayDl1d6DauIbN8TUf9TDRxNkrK1Ehb0OCXjC1ZJtrg==}
+
+  '@unhead/schema-org@1.11.14':
+    resolution: {integrity: sha512-0ucX12roNyufrKyLIqF+Dlk5oHTHpYOsSCWGtjUfs5KlbIjECRCforwXHtJQbgyZw+gBYCOUUt7uv5PkEkr0pQ==}
+    peerDependencies:
+      '@unhead/vue': ^1.11.13
+      unhead: ^1.11.13
+    peerDependenciesMeta:
+      '@unhead/vue':
+        optional: true
 
   '@unhead/schema@1.11.14':
     resolution: {integrity: sha512-V9W9u5tF1/+TiLqxu+Qvh1ShoMDkPEwHoEo4DKdDG6ko7YlbzFfDxV6el9JwCren45U/4Vy/4Xi7j8OH02wsiA==}
@@ -3588,6 +3600,9 @@ packages:
     resolution: {integrity: sha512-t9m4zTq44R0/icuzQXJHEyPRM3YbgTPMpytyb6YW2LOL/3mwZ3Bmte1FIlCoigzDvxBJRbcchZGc689+Syyu8w==}
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
+
+  nuxt-schema-org@4.0.4:
+    resolution: {integrity: sha512-LEzut5sVRF0DTcnX2X5sH8/4Ausl1Y9G9tfMhvZJ1d9rmNwhGnKV1illKkU/sCYhAs2g0+8Un2uDr84QgpsJJA==}
 
   nuxt-site-config-kit@3.0.6:
     resolution: {integrity: sha512-QBOFzAIo+D02avFQQ7gNlRyA372/PQlgW2IjL2nttvjfHapqYbvP6tIP55soL+1+D8YvF/bGZgS+vJtfQhroUg==}
@@ -6672,6 +6687,14 @@ snapshots:
       '@unhead/schema': 1.11.14
       '@unhead/shared': 1.11.14
 
+  '@unhead/schema-org@1.11.14(@unhead/vue@1.11.14(vue@3.5.13(typescript@5.7.2)))(unhead@1.11.14)':
+    dependencies:
+      ohash: 1.1.4
+      ufo: 1.5.4
+      unhead: 1.11.14
+    optionalDependencies:
+      '@unhead/vue': 1.11.14(vue@3.5.13(typescript@5.7.2))
+
   '@unhead/schema@1.11.14':
     dependencies:
       hookable: 5.5.3
@@ -9196,6 +9219,24 @@ snapshots:
       boolbase: 1.0.0
 
   nuxi@3.16.0: {}
+
+  nuxt-schema-org@4.0.4(@unhead/vue@1.11.14(vue@3.5.13(typescript@5.7.2)))(magicast@0.3.5)(rollup@4.28.1)(unhead@1.11.14)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.28.2)(terser@5.37.0))(vue@3.5.13(typescript@5.7.2)):
+    dependencies:
+      '@nuxt/devtools-kit': 1.6.4(magicast@0.3.5)(rollup@4.28.1)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.28.2)(terser@5.37.0))
+      '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.28.1)
+      '@unhead/schema-org': 1.11.14(@unhead/vue@1.11.14(vue@3.5.13(typescript@5.7.2)))(unhead@1.11.14)
+      nuxt-site-config: 3.0.6(magicast@0.3.5)(rollup@4.28.1)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.28.2)(terser@5.37.0))(vue@3.5.13(typescript@5.7.2))
+      pathe: 1.1.2
+      pkg-types: 1.2.1
+      sirv: 3.0.0
+    transitivePeerDependencies:
+      - '@unhead/vue'
+      - magicast
+      - rollup
+      - supports-color
+      - unhead
+      - vite
+      - vue
 
   nuxt-site-config-kit@3.0.6(magicast@0.3.5)(rollup@4.28.1)(vue@3.5.13(typescript@5.7.2)):
     dependencies:
