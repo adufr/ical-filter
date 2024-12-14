@@ -5,7 +5,15 @@ import pkgJson from './package.json'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@vueuse/nuxt', '@nuxthub/core', '@nuxtjs/plausible', '@nuxt/test-utils/module'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+    '@nuxthub/core',
+    '@nuxtjs/plausible',
+    '@nuxt/test-utils/module',
+    '@nuxtjs/robots',
+  ],
 
   css: ['~/assets/css/main.css'],
 
