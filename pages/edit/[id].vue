@@ -7,17 +7,15 @@ useSeoMeta({
 const route = useRoute()
 const { activeCalendar, calendars } = useCalendars()
 
-onMounted(() => {
-  if (!activeCalendar.value.id) {
-    const calendar = calendars.value.find(cal => cal.id === route.params.id)
-    if (calendar) {
-      activeCalendar.value = calendar
-    }
-    else {
-      navigateTo('/')
-    }
+if (!activeCalendar.value.id) {
+  const calendar = calendars.value.find(cal => cal.id === route.params.id)
+  if (calendar) {
+    activeCalendar.value = calendar
   }
-})
+  else {
+    navigateTo('/new')
+  }
+}
 </script>
 
 <template>
