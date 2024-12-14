@@ -25,6 +25,18 @@ const filteredRules = computed(() => (activeCalendar.value.rules ?? []).filter(r
 const filteredEvents = computed(() => applyRulesFilters((data.value?.events ?? []) as unknown as VEvent[], filteredRules.value))
 
 // --------------------------------------------------------------------------
+// Init new calendar
+
+if (props.mode === 'new') {
+  activeCalendar.value = {
+    id: crypto.randomUUID(),
+    name: '',
+    url: '',
+    rules: [],
+  }
+}
+
+// --------------------------------------------------------------------------
 // Rules
 
 const ruleFieldsItems = computed<Array<{ label: string, value: RuleField }>>(
@@ -49,20 +61,24 @@ function removeRule(index: number) {
 // Actions
 
 async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
+  const newCalendar = {
+    id: activeCalendar.value.id,
+    ...event.data,
+  }
+
   if (props.mode === 'new') {
-    calendars.value.push({
-      id: crypto.randomUUID(),
-      ...event.data,
-    })
+    calendars.value.push(newCalendar)
+    await nextTick() // otherwise calendar doesn't have time to get stored
+    router.push(`/edit/${newCalendar.id}`)
   }
   else if (props.mode === 'edit') {
     const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
     if (existingCalendarIndex !== -1) {
-      calendars.value[existingCalendarIndex] = event.data
+      calendars.value[existingCalendarIndex] = newCalendar
     }
   }
 
-  modal.open(NewCalendarModal)
+  modal.open(NewCalendarModal, { mode: props.mode })
 }
 
 function deleteCalendar() {
