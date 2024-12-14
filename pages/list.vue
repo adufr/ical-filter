@@ -1,22 +1,10 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'Calendars list - iCal Filter',
+  title: 'Calendars list - iCalFilter',
   description: 'List of all your calendars with the number of events and the number of events that match the filtering rules.',
 })
 
-const router = useRouter()
-const { calendars, activeCalendar } = useCalendars()
-
-function createCalendar() {
-  activeCalendar.value = {
-    id: crypto.randomUUID(),
-    name: '',
-    url: '',
-    rules: [],
-  }
-
-  router.push('/new')
-}
+const { calendars } = useCalendars()
 </script>
 
 <template>
@@ -25,7 +13,7 @@ function createCalendar() {
       <UButton
         icon="i-heroicons-plus"
         size="sm"
-        @click="createCalendar()"
+        to="/new"
       >
         Create a new calendar
       </UButton>

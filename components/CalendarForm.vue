@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
-import type { Calendar, RuleField, RuleType } from '~/types'
+import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
+import NewCalendarModal from './NewCalendarModal.vue'
+
+const props = defineProps<{
+  mode: 'new' | 'edit'
+}>()
 
 const toast = useToast()
+const modal = useModal()
 const router = useRouter()
-const { activeCalendar, calendars } = useCalendars()
+const { activeCalendar, calendars, copyCalendarLink } = useCalendars()
 
 const formParams = computed(() => ({ url: activeCalendar.value.url }))
 
@@ -17,6 +23,18 @@ const { data, status, error } = useLazyFetch('/api/cal', {
 
 const filteredRules = computed(() => (activeCalendar.value.rules ?? []).filter(rule => rule.v))
 const filteredEvents = computed(() => applyRulesFilters((data.value?.events ?? []) as unknown as VEvent[], filteredRules.value))
+
+// --------------------------------------------------------------------------
+// Init new calendar
+
+if (props.mode === 'new') {
+  activeCalendar.value = {
+    id: crypto.randomUUID(),
+    name: '',
+    url: '',
+    rules: [],
+  }
+}
 
 // --------------------------------------------------------------------------
 // Rules
@@ -43,20 +61,24 @@ function removeRule(index: number) {
 // Actions
 
 async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
-  activeCalendar.value = event.data
-  const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
-  if (existingCalendarIndex >= 0) {
-    calendars.value[existingCalendarIndex] = activeCalendar.value
-  }
-  else {
-    calendars.value.push(activeCalendar.value)
+  const newCalendar = {
+    id: activeCalendar.value.id,
+    ...event.data,
   }
 
-  toast.add({
-    title: 'Success',
-    description: 'Your calendar has been saved',
-    color: 'success',
-  })
+  if (props.mode === 'new') {
+    calendars.value.push(newCalendar)
+    await nextTick() // otherwise calendar doesn't have time to get stored
+    router.push(`/edit/${newCalendar.id}`)
+  }
+  else if (props.mode === 'edit') {
+    const existingCalendarIndex = calendars.value.findIndex(cal => cal.id === activeCalendar.value.id)
+    if (existingCalendarIndex !== -1) {
+      calendars.value[existingCalendarIndex] = newCalendar
+    }
+  }
+
+  modal.open(NewCalendarModal, { mode: props.mode })
 }
 
 function deleteCalendar() {
@@ -70,19 +92,6 @@ function deleteCalendar() {
   })
 
   router.push('/list')
-}
-
-function copyCalendarLink() {
-  const apiUrl = getCalendarUrl(activeCalendar.value)
-  const domain = window.location.origin
-
-  navigator.clipboard.writeText(`${domain}${apiUrl}`)
-
-  toast.add({
-    title: 'Success',
-    description: 'Calendar URL copied to your clipboard',
-    color: 'success',
-  })
 }
 </script>
 

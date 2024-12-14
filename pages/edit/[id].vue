@@ -1,23 +1,21 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'Edit calendar - iCal Filter',
+  title: 'Edit calendar - iCalFilter',
   description: 'Edit your calendar, add or remove rules, and save the changes.',
 })
 
 const route = useRoute()
 const { activeCalendar, calendars } = useCalendars()
 
-onMounted(() => {
-  if (!activeCalendar.value.id) {
-    const calendar = calendars.value.find(cal => cal.id === route.params.id)
-    if (calendar) {
-      activeCalendar.value = calendar
-    }
-    else {
-      navigateTo('/')
-    }
+if (!activeCalendar.value.id) {
+  const calendar = calendars.value.find(cal => cal.id === route.params.id)
+  if (calendar) {
+    activeCalendar.value = calendar
   }
-})
+  else {
+    navigateTo('/new')
+  }
+}
 </script>
 
 <template>
@@ -35,7 +33,7 @@ onMounted(() => {
     </PageHeader>
 
     <ClientOnly>
-      <CalendarForm />
+      <CalendarForm mode="edit" />
 
       <template #fallback>
         <div class="flex justify-center items-center h-full">
