@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@nuxtjs/plausible',
     '@nuxt/test-utils/module',
     '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -41,5 +42,15 @@ export default defineNuxtConfig({
     config: {
       standalone: false,
     },
+  },
+
+  site: {
+    url: 'https://ical-filter.arthurdufour.dev',
+    name: 'iCalFilter',
+  },
+
+  routeRules: {
+    // Don't add any /secret/** URLs to the sitemap.xml
+    '/edit/**': { robots: false },
   },
 })

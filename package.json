@@ -18,6 +18,7 @@
   "dependencies": {
     "@nuxt/ui": "3.0.0-alpha.10",
     "@nuxtjs/robots": "5.0.1",
+    "@nuxtjs/sitemap": "7.0.0",
     "@vueuse/nuxt": "12.0.0",
     "ical-generator": "^8.0.1",
     "node-ical": "^0.20.1",
