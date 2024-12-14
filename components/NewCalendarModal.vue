@@ -1,4 +1,9 @@
 <script setup lang="ts">
+const props = defineProps<{
+  mode: 'new' | 'edit'
+}>()
+
+const modal = useModal()
 const { copyCalendarLink } = useCalendars()
 </script>
 
@@ -10,34 +15,38 @@ const { copyCalendarLink } = useCalendars()
 
     <template #body>
       <div class="flex flex-col gap-4">
-        <div>
-          <p>Your calendar has successfully been saved!</p>
-        </div>
+        <UAlert
+          v-if="props.mode === 'edit'"
+          color="warning"
+          variant="soft"
+          title="Warning"
+          description="To apply changes when editing an existing calendar, you must re-import it into your calendar application."
+          icon="i-heroicons-exclamation-triangle-20-solid"
+        />
 
-        <!-- <UAlert
+        <UAlert
           color="primary"
           variant="soft"
-          title="How to integrate your calendar?"
-          description="Click here to see how to integrate your calendar with your favorite calendar app."
-          icon="i-lucide-calendar"
-        /> -->
+          title="What to do now?"
+          description="Copy your calendar URL so you can import it in your favorite calendar application."
+          :actions="[{
+            label: 'Copy calendar URL',
+            icon: 'i-heroicons-clipboard-document-list-16-solid',
+            onClick: () => copyCalendarLink(),
+          }]"
+        />
       </div>
     </template>
 
     <template #footer>
       <UButton
-        icon="i-lucide-arrow-left"
-        to="/list"
-        @click="useModal().close()"
-      >
-        Go to calendars list
-      </UButton>
-      <UButton
-        icon="i-lucide-copy"
+        color="neutral"
         variant="soft"
-        @click="copyCalendarLink()"
+        icon="i-heroicons-arrow-left-16-solid"
+        to="/list"
+        @click="modal.close()"
       >
-        Copy calendar URL
+        Back to calendars list
       </UButton>
     </template>
   </UModal>
