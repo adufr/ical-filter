@@ -35,7 +35,7 @@ onMounted(() => {
     </PageHeader>
 
     <ClientOnly>
-      <CalendarForm />
+      <CalendarForm mode="edit" />
 
       <template #fallback>
         <div class="flex justify-center items-center h-full">

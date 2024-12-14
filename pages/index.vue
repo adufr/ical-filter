@@ -4,20 +4,6 @@ useSeoMeta({
   description: 'Add customizable filtering rules to existing iCalendar links. No account required, completely free',
 })
 
-const router = useRouter()
-const { activeCalendar } = useCalendars()
-
-function createCalendar() {
-  activeCalendar.value = {
-    id: crypto.randomUUID(),
-    name: '',
-    url: '',
-    rules: [],
-  }
-
-  router.push('/new')
-}
-
 const accordionItems = ref([
   {
     icon: 'i-heroicons-question-mark-circle',
@@ -51,7 +37,7 @@ const accordionItems = ref([
             <UButton
               icon="i-heroicons-plus"
               color="primary"
-              @click="createCalendar()"
+              to="/new"
             >
               Create a calendar
             </UButton>

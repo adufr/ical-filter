@@ -20,7 +20,7 @@ useSeoMeta({
     </PageHeader>
 
     <ClientOnly>
-      <CalendarForm />
+      <CalendarForm mode="new" />
 
       <template #fallback>
         <div class="flex justify-center items-center h-full">
