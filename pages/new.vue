@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'New calendar - iCal Filter',
+  title: 'New calendar - iCalFilter',
   description: 'Create a calendar with a custom name and URL, and add filtering rules.',
 })
 </script>
@@ -20,7 +20,7 @@ useSeoMeta({
     </PageHeader>
 
     <ClientOnly>
-      <CalendarForm />
+      <CalendarForm mode="new" />
 
       <template #fallback>
         <div class="flex justify-center items-center h-full">
