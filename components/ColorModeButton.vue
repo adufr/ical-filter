@@ -21,7 +21,7 @@ defineShortcuts({
   <ClientOnly v-if="!colorMode?.forced">
     <UTooltip :kbds="['meta', 'shift', 'l']" :text="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
       <UButton
-        :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'"
+        :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"
         color="neutral"
         variant="ghost"
         :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
