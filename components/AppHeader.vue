@@ -8,8 +8,8 @@ const appVersion = config.public.appVersion
     <div class="flex items-center gap-2">
       <img
         src="/logo.png"
-        alt="iCalFilter"
         class="size-8"
+        aria-hidden="true"
       >
 
       <NuxtLink to="/">
