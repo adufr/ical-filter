@@ -9,29 +9,35 @@
     "helpers:pinGitHubActionDigests"
   ],
   "dependencyDashboard": true,
-  "labels": ["📦 dependencies"],
+  "labels": [
+    "📦 dependencies"
+  ],
   "timezone": "Europe/Paris",
-  "schedule": ["before 6am on friday"],
+  "schedule": [
+    "before 6am on friday"
+  ],
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 6am on monday"],
+    "schedule": [
+      "before 6am on monday"
+    ],
     "dependencyDashboardApproval": true
   },
   "packageRules": [
     {
       "groupName": "linting",
-      "matchPackagePatterns": [
-        "^@antfu/eslint-config$",
-        "^@nuxt/eslint$"
+      "matchPackageNames": [
+        "/^@antfu/eslint-config$/",
+        "/^@nuxt/eslint$/"
       ]
     },
     {
       "description": "Testing dependencies",
       "groupName": "testing",
-      "matchPackagePatterns": [
-        "^vitest$",
-        "^@nuxt/test-utils"
+      "matchPackageNames": [
+        "/^vitest$/",
+        "/^@nuxt/test-utils/"
       ]
     }
   ],
