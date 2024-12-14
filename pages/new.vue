@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'New calendar - iCal Filter',
+  title: 'New calendar - iCalFilter',
   description: 'Create a calendar with a custom name and URL, and add filtering rules.',
 })
 </script>

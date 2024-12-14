@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'Calendars list - iCal Filter',
+  title: 'Calendars list - iCalFilter',
   description: 'List of all your calendars with the number of events and the number of events that match the filtering rules.',
 })
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'iCal Filter',
+  title: 'iCalFilter',
   description: 'Add customizable filtering rules to existing iCalendar links. No account required, completely free',
 })
 

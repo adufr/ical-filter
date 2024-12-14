@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'Edit calendar - iCal Filter',
+  title: 'Edit calendar - iCalFilter',
   description: 'Edit your calendar, add or remove rules, and save the changes.',
 })
 
