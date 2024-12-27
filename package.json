@@ -16,6 +16,9 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@nuxt/ui": "3.0.0-alpha.10",
     "@nuxtjs/robots": "5.0.1",
     "@nuxtjs/sitemap": "7.0.0",
