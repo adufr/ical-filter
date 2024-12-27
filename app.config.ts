@@ -4,5 +4,14 @@ export default defineAppConfig({
       primary: 'purple',
       neutral: 'slate',
     },
+    modal: {
+      variants: {
+        fullscreen: {
+          true: {
+            content: 'top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:max-w-4xl sm:h-auto sm:max-h-[calc(100vh-4rem)] sm:rounded-[calc(var(--ui-radius)*2)] sm:shadow-lg sm:ring ring-[var(--ui-border)]',
+          },
+        },
+      },
+    },
   },
 })

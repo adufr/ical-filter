@@ -3,6 +3,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 import type { VEvent } from 'node-ical'
 import type { RuleField, RuleType } from '~/types'
 import { ruleFields, ruleTypes } from '~/types'
+import CalendarPreviewModal from './CalendarPreviewModal.vue'
 import NewCalendarModal from './NewCalendarModal.vue'
 
 const props = defineProps<{
@@ -138,9 +139,18 @@ function deleteCalendar() {
           <p v-else-if="error" class="text-red-500 dark:text-red-400">
             An error has occured: make sure the URL is a valid iCalendar URL
           </p>
-          <p v-else>
-            Found a total of {{ data?.events.length }} events
-          </p>
+          <div v-else class="flex items-center gap-2">
+            <p>Found a total of {{ data?.events.length }} events</p>
+            <UTooltip text="Show a preview of the calendar">
+              <UButton
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                icon="i-heroicons-question-mark-circle"
+                @click="modal.open(CalendarPreviewModal, { events: data?.events ?? [] })"
+              />
+            </UTooltip>
+          </div>
         </div>
       </div>
 
@@ -198,10 +208,21 @@ function deleteCalendar() {
           </UButtonGroup>
         </UForm>
 
-        <div class="flex items-center  gap-2">
-          <p v-if="activeCalendar.rules?.length > 0" class="text-sm text-gray-400">
-            Found {{ filteredEvents.length }} events matching rules
-          </p>
+        <div class="flex items-center gap-2">
+          <div v-if="activeCalendar.rules?.length > 0" class="flex items-center gap-2">
+            <p class="text-sm text-gray-400">
+              Found {{ filteredEvents.length }} events matching rules
+            </p>
+            <UTooltip text="Show a preview of the calendar">
+              <UButton
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                icon="i-heroicons-question-mark-circle"
+                @click="modal.open(CalendarPreviewModal, { events: filteredEvents })"
+              />
+            </UTooltip>
+          </div>
 
           <UButton
             size="sm"
