@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CalendarOptions } from '@fullcalendar/core/index.js'
+import type { CalendarOptions, EventContentArg } from '@fullcalendar/core/index.js'
 import type { VEvent } from 'node-ical'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import FullCalendar from '@fullcalendar/vue3'
@@ -12,7 +12,10 @@ const calendarEvents = computed(() => props.events.map(event => ({
   title: event.summary,
   start: event.start,
   end: event.end,
-  description: event.description,
+  extendedProps: {
+    description: event.description,
+    location: event.location,
+  },
 })))
 
 const calendarOptions = computed<CalendarOptions>(() => ({
@@ -49,7 +52,21 @@ const calendarOptions = computed<CalendarOptions>(() => ({
   contentHeight: 'auto',
   scrollTime: '08:00:00',
   dayHeaderFormat: { weekday: 'short', day: 'numeric', omitCommas: true },
+  eventContent: eventToHTML,
 }))
+
+function eventToHTML(arg: EventContentArg) {
+  const title = `<p class="text-sm font-medium line-clamp-2 break-all">${arg.event.title}</p>`
+  const location = `<p class="text-xs line-clamp-1 break-all">${arg.event.extendedProps.location}</p>`
+  return {
+    html: `
+      <div class="flex flex-col">
+        ${title}
+        ${arg.event.extendedProps.location ? location : ''}
+      </div>
+    `,
+  }
+}
 </script>
 
 <template>
@@ -73,9 +90,9 @@ const calendarOptions = computed<CalendarOptions>(() => ({
   @apply overflow-hidden cursor-pointer;
 } */
 
-.fc-timegrid-event .fc-event-main {
+/* .fc-timegrid-event .fc-event-main {
   padding: 0px 2px 0px;
-}
+} */
 
 /* .fc-theme-standard .fc-scrollgrid {
   border: none;
