@@ -16,6 +16,12 @@ if (!activeCalendar.value.id) {
     navigateTo('/new')
   }
 }
+
+defineShortcuts({
+  escape: () => {
+    navigateTo('/list')
+  },
+})
 </script>
 
 <template>
