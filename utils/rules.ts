@@ -1,5 +1,6 @@
 import type { VEvent } from 'node-ical'
-import { type Rule, ruleFields, ruleTypes } from '~/types'
+import type { Rule } from '~/types'
+import { ruleFields, ruleTypes } from '~/types'
 
 export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
   return icsEvents.filter((event) => {
