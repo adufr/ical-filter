@@ -12,7 +12,7 @@
     "postinstall": "nuxt prepare",
     "lint": "./node_modules/.bin/eslint --no-fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
     "lint:fix": "./node_modules/.bin/eslint --fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
-    "format": "./node_modules/.bin/prettier \"./**/*.{ts,js,vue,yaml,json}\"",
+    "format": "./node_modules/.bin/prettier --check \"./**/*.{ts,js,vue,yaml,json}\"",
     "format:fix": "./node_modules/.bin/prettier --write \"./**/*.{ts,js,vue,yaml,json}\"",
     "type-check": "./node_modules/.bin/tsc --noEmit",
     "test": "vitest"
