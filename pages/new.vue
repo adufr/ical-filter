@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'New calendar - iCalFilter',
-  description: 'Create a calendar with a custom name and URL, and add filtering rules.',
-})
+  title: "New calendar - iCalFilter",
+  description:
+    "Create a calendar with a custom name and URL, and add filtering rules.",
+});
 
 defineShortcuts({
   escape: () => {
-    navigateTo('/list')
+    navigateTo("/list");
   },
-})
+});
 </script>
 
 <template>

@@ -1,17 +1,15 @@
 <script setup lang="ts">
 const props = defineProps<{
-  mode: 'new' | 'edit'
-}>()
+  mode: "new" | "edit";
+}>();
 
-const modal = useModal()
-const { copyCalendarLink } = useCalendars()
+const modal = useModal();
+const { copyCalendarLink } = useCalendars();
 </script>
 
 <template>
   <UModal>
-    <template #title>
-      Calendar saved!
-    </template>
+    <template #title> Calendar saved! </template>
 
     <template #body>
       <div class="flex flex-col gap-4">
@@ -29,11 +27,13 @@ const { copyCalendarLink } = useCalendars()
           variant="soft"
           title="What to do now?"
           description="Copy your calendar URL so you can import it in your favorite calendar application."
-          :actions="[{
-            label: 'Copy calendar URL',
-            icon: 'i-heroicons-clipboard-document-list-16-solid',
-            onClick: () => copyCalendarLink(),
-          }]"
+          :actions="[
+            {
+              label: 'Copy calendar URL',
+              icon: 'i-heroicons-clipboard-document-list-16-solid',
+              onClick: () => copyCalendarLink(),
+            },
+          ]"
         />
       </div>
     </template>

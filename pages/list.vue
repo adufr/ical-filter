@@ -1,20 +1,17 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: 'Calendars list - iCalFilter',
-  description: 'List of all your calendars with the number of events and the number of events that match the filtering rules.',
-})
+  title: "Calendars list - iCalFilter",
+  description:
+    "List of all your calendars with the number of events and the number of events that match the filtering rules.",
+});
 
-const { calendars } = useCalendars()
+const { calendars } = useCalendars();
 </script>
 
 <template>
   <div class="flex flex-col gap-5">
     <PageHeader title="Calendars list">
-      <UButton
-        icon="i-heroicons-plus"
-        size="sm"
-        to="/new"
-      >
+      <UButton icon="i-heroicons-plus" size="sm" to="/new">
         Create a new calendar
       </UButton>
     </PageHeader>

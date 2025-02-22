@@ -1,38 +1,49 @@
 <script lang="ts" setup>
-import type { VEvent } from 'node-ical'
-import type { Calendar } from '~/types'
+import type { VEvent } from "node-ical";
+import type { Calendar } from "~/types";
 
-const router = useRouter()
-const { calendars, activeCalendar } = useCalendars()
+const router = useRouter();
+const { calendars, activeCalendar } = useCalendars();
 
-const isLoading = ref(true)
-const calendarsWithCounts = ref<Array<Calendar & { eventsCount: number, filteredEventsCount: number }>>([])
+const isLoading = ref(true);
+const calendarsWithCounts = ref<
+  Array<Calendar & { eventsCount: number; filteredEventsCount: number }>
+>([]);
 
 function editCalendar(calendar: Calendar) {
-  activeCalendar.value = calendar
-  router.push(`/edit/${calendar.id}`)
+  activeCalendar.value = calendar;
+  router.push(`/edit/${calendar.id}`);
 }
 
 onMounted(async () => {
   for (const calendar of calendars.value) {
-    const data = await $fetch(`/api/cal?url=${calendar.url}`)
+    const data = await $fetch(`/api/cal?url=${calendar.url}`);
 
     calendarsWithCounts.value.push({
       ...calendar,
       eventsCount: data?.events.length,
-      filteredEventsCount: applyRulesFilters(data.events as unknown as VEvent[], calendar.rules).length,
-    })
+      filteredEventsCount: applyRulesFilters(
+        data.events as unknown as VEvent[],
+        calendar.rules,
+      ).length,
+    });
   }
 
-  isLoading.value = false
-})
+  isLoading.value = false;
+});
 
 function getTotalEventsCount(calendar: Calendar) {
-  return calendarsWithCounts.value.find(c => c.id === calendar.id)?.eventsCount ?? 0
+  return (
+    calendarsWithCounts.value.find((c) => c.id === calendar.id)?.eventsCount ??
+    0
+  );
 }
 
 function getFilteredEventsCount(calendar: Calendar) {
-  return calendarsWithCounts.value.find(c => c.id === calendar.id)?.filteredEventsCount ?? 0
+  return (
+    calendarsWithCounts.value.find((c) => c.id === calendar.id)
+      ?.filteredEventsCount ?? 0
+  );
 }
 </script>
 
@@ -55,7 +66,8 @@ function getFilteredEventsCount(calendar: Calendar) {
           <USkeleton v-if="isLoading" class="w-40 h-6" />
 
           <UBadge v-else variant="soft">
-            matches {{ getFilteredEventsCount(calendar) }} of {{ getTotalEventsCount(calendar) }} events
+            matches {{ getFilteredEventsCount(calendar) }} of
+            {{ getTotalEventsCount(calendar) }} events
           </UBadge>
         </div>
       </div>
