@@ -21,7 +21,7 @@
   "packageRules": [
     {
       "groupName": "linting",
-      "matchPackageNames": ["/^@antfu/eslint-config$/", "/^@nuxt/eslint$/"]
+      "matchPackageNames": ["/^@sxzz/eslint-config$/", "/^@nuxt/eslint$/"]
     },
     {
       "description": "Testing dependencies",
