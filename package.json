@@ -1,9 +1,9 @@
 {
   "name": "ical-filter",
-  "type": "module",
   "version": "0.2.0",
   "private": true,
   "packageManager": "pnpm@9.14.2",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -12,6 +12,8 @@
     "postinstall": "nuxt prepare",
     "lint": "./node_modules/.bin/eslint --no-fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
     "lint:fix": "./node_modules/.bin/eslint --fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
+    "format": "./node_modules/.bin/prettier \"./**/*.{ts,js,vue,yaml,json}\"",
+    "format:fix": "./node_modules/.bin/prettier --write \"./**/*.{ts,js,vue,yaml,json}\"",
     "type-check": "./node_modules/.bin/tsc --noEmit",
     "test": "vitest"
   },
@@ -29,7 +31,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.1.0",
     "@iconify-json/heroicons": "^1.2.2",
     "@iconify-json/simple-icons": "^1.2.21",
     "@iconify-json/svg-spinners": "^1.2.2",
@@ -37,6 +38,7 @@
     "@nuxt/test-utils": "^3.15.4",
     "@nuxthub/core": "^0.8.14",
     "@nuxtjs/plausible": "^1.2.0",
+    "@sxzz/eslint-config": "^5.1.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.4",
     "vue-tsc": "^2.2.0"
