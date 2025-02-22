@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 defineProps<{
-  icon: string
-  title: string
-  description: string
-}>()
+  icon: string;
+  title: string;
+  description: string;
+}>();
 </script>
 
 <template>
@@ -13,11 +13,7 @@ defineProps<{
         class="size-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800"
         :aria-label="title"
       >
-        <UIcon
-          :name="icon"
-          class="size-5"
-          aria-hidden="true"
-        />
+        <UIcon :name="icon" class="size-5" aria-hidden="true" />
       </div>
 
       <div class="space-y-1">

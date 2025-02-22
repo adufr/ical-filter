@@ -9,43 +9,29 @@
     "helpers:pinGitHubActionDigests"
   ],
   "dependencyDashboard": true,
-  "labels": [
-    "📦 dependencies"
-  ],
+  "labels": ["📦 dependencies"],
   "timezone": "Europe/Paris",
-  "schedule": [
-    "before 6am on friday"
-  ],
+  "schedule": ["before 6am on friday"],
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": [
-      "before 6am on monday"
-    ],
+    "schedule": ["before 6am on monday"],
     "dependencyDashboardApproval": true
   },
   "packageRules": [
     {
       "groupName": "linting",
-      "matchPackageNames": [
-        "/^@antfu/eslint-config$/",
-        "/^@nuxt/eslint$/"
-      ]
+      "matchPackageNames": ["/^@sxzz/eslint-config$/", "/^@nuxt/eslint$/"]
     },
     {
       "description": "Testing dependencies",
       "groupName": "testing",
-      "matchPackageNames": [
-        "/^vitest$/",
-        "/^@nuxt/test-utils/"
-      ]
+      "matchPackageNames": ["/^vitest$/", "/^@nuxt/test-utils/"]
     },
     {
       "description": "Icon libraries",
       "groupName": "icons",
-      "matchPackageNames": [
-        "/^@iconify-json/"
-      ]
+      "matchPackageNames": ["/^@iconify-json/"]
     }
   ],
   "github-actions": {
