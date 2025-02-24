@@ -2,7 +2,7 @@
   "name": "ical-filter",
   "version": "0.2.0",
   "private": true,
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@9.15.6",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
