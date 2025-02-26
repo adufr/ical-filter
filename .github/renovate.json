@@ -1,41 +1,4 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":semanticCommits",
-    ":semanticPrefixFix",
-    ":maintainLockFilesWeekly",
-    ":enableVulnerabilityAlerts",
-    "helpers:pinGitHubActionDigests"
-  ],
-  "dependencyDashboard": true,
-  "labels": ["📦 dependencies"],
-  "timezone": "Europe/Paris",
-  "schedule": ["before 6am on friday"],
-  "rangeStrategy": "bump",
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": ["before 6am on monday"],
-    "dependencyDashboardApproval": true
-  },
-  "packageRules": [
-    {
-      "groupName": "linting",
-      "matchPackageNames": ["/^@sxzz/eslint-config$/", "/^@nuxt/eslint$/"]
-    },
-    {
-      "description": "Testing dependencies",
-      "groupName": "testing",
-      "matchPackageNames": ["/^vitest$/", "/^@nuxt/test-utils/"]
-    },
-    {
-      "description": "Icon libraries",
-      "groupName": "icons",
-      "matchPackageNames": ["/^@iconify-json/"]
-    }
-  ],
-  "github-actions": {
-    "enabled": true,
-    "pinDigests": true
-  }
+  "extends": ["github>adufr/renovate-config"],
+  "automerge": true
 }
