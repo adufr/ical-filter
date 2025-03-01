@@ -1,23 +1,23 @@
 <script lang="ts" setup>
-import type { VEvent } from "node-ical";
-import type { Calendar } from "~/types";
+import type { VEvent } from 'node-ical'
+import type { Calendar } from '~/types'
 
-const router = useRouter();
-const { calendars, activeCalendar } = useCalendars();
+const router = useRouter()
+const { calendars, activeCalendar } = useCalendars()
 
-const isLoading = ref(true);
+const isLoading = ref(true)
 const calendarsWithCounts = ref<
   Array<Calendar & { eventsCount: number; filteredEventsCount: number }>
->([]);
+>([])
 
 function editCalendar(calendar: Calendar) {
-  activeCalendar.value = calendar;
-  router.push(`/edit/${calendar.id}`);
+  activeCalendar.value = calendar
+  router.push(`/edit/${calendar.id}`)
 }
 
 onMounted(async () => {
   for (const calendar of calendars.value) {
-    const data = await $fetch(`/api/cal?url=${calendar.url}`);
+    const data = await $fetch(`/api/cal?url=${calendar.url}`)
 
     calendarsWithCounts.value.push({
       ...calendar,
@@ -26,24 +26,24 @@ onMounted(async () => {
         data.events as unknown as VEvent[],
         calendar.rules,
       ).length,
-    });
+    })
   }
 
-  isLoading.value = false;
-});
+  isLoading.value = false
+})
 
 function getTotalEventsCount(calendar: Calendar) {
   return (
     calendarsWithCounts.value.find((c) => c.id === calendar.id)?.eventsCount ??
     0
-  );
+  )
 }
 
 function getFilteredEventsCount(calendar: Calendar) {
   return (
     calendarsWithCounts.value.find((c) => c.id === calendar.id)
       ?.filteredEventsCount ?? 0
-  );
+  )
 }
 </script>
 
@@ -52,18 +52,18 @@ function getFilteredEventsCount(calendar: Calendar) {
     v-for="(calendar, index) in calendars"
     :key="index"
     type="button"
-    class="bg-white hover:bg-slate-100 border border-gray-50 shadow dark:border-none dark:bg-slate-800 dark:hover:bg-slate-700 p-4 md:p-5 rounded-lg transition-colors duration-150 cursor-pointer"
+    class="cursor-pointer rounded-lg border border-gray-50 bg-white p-4 shadow transition-colors duration-150 hover:bg-slate-100 md:p-5 dark:border-none dark:bg-slate-800 dark:hover:bg-slate-700"
     :aria-label="`Edit calendar: ${calendar.name}`"
     @click="editCalendar(calendar)"
   >
     <div class="flex items-center justify-between gap-2">
-      <div class="flex flex-col gap-2 w-full text-left">
+      <div class="flex w-full flex-col gap-2 text-left">
         <h2 class="text-lg font-semibold">
           {{ calendar.name }}
         </h2>
 
         <div>
-          <USkeleton v-if="isLoading" class="w-40 h-6" />
+          <USkeleton v-if="isLoading" class="h-6 w-40" />
 
           <UBadge v-else variant="soft">
             matches {{ getFilteredEventsCount(calendar) }} of

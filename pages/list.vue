@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: "Calendars list - iCalFilter",
+  title: 'Calendars list - iCalFilter',
   description:
-    "List of all your calendars with the number of events and the number of events that match the filtering rules.",
-});
+    'List of all your calendars with the number of events and the number of events that match the filtering rules.',
+})
 
-const { calendars } = useCalendars();
+const { calendars } = useCalendars()
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { calendars } = useCalendars();
     </PageHeader>
 
     <ClientOnly>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
         <p v-if="calendars.length === 0">
           No calendars yet, start by creating one
         </p>
@@ -26,7 +26,7 @@ const { calendars } = useCalendars();
       </div>
 
       <template #fallback>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
           <USkeleton class="h-24 animate-pulse" />
           <USkeleton class="h-24 animate-pulse" />
           <USkeleton class="h-24 animate-pulse" />

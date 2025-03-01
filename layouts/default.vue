@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen flex flex-col">
+  <div class="flex h-screen flex-col">
     <AppHeader />
 
-    <NuxtPage class="px-5 md:px-52 py-10" />
+    <NuxtPage class="px-5 py-10 md:px-52" />
   </div>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const props = defineProps<{
-  mode: "new" | "edit";
-}>();
+  mode: 'new' | 'edit'
+}>()
 
-const modal = useModal();
-const { copyCalendarLink } = useCalendars();
+const modal = useModal()
+const { copyCalendarLink } = useCalendars()
 </script>
 
 <template>

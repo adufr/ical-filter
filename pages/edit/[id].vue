@@ -1,26 +1,26 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: "Edit calendar - iCalFilter",
-  description: "Edit your calendar, add or remove rules, and save the changes.",
-});
+  title: 'Edit calendar - iCalFilter',
+  description: 'Edit your calendar, add or remove rules, and save the changes.',
+})
 
-const route = useRoute();
-const { activeCalendar, calendars } = useCalendars();
+const route = useRoute()
+const { activeCalendar, calendars } = useCalendars()
 
 if (!activeCalendar.value.id) {
-  const calendar = calendars.value.find((cal) => cal.id === route.params.id);
+  const calendar = calendars.value.find((cal) => cal.id === route.params.id)
   if (calendar) {
-    activeCalendar.value = calendar;
+    activeCalendar.value = calendar
   } else {
-    navigateTo("/new");
+    navigateTo('/new')
   }
 }
 
 defineShortcuts({
   escape: () => {
-    navigateTo("/list");
+    navigateTo('/list')
   },
-});
+})
 </script>
 
 <template>
@@ -41,7 +41,7 @@ defineShortcuts({
       <CalendarForm mode="edit" />
 
       <template #fallback>
-        <div class="flex justify-center items-center h-full">
+        <div class="flex h-full items-center justify-center">
           <UIcon name="i-svg-spinners-270-ring-with-bg" />
         </div>
       </template>
