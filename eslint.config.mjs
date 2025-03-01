@@ -1,8 +1,8 @@
-import { sxzz } from "@sxzz/eslint-config";
+import { adufr } from "@adufr/eslint-config";
 import withNuxt from "./.nuxt/eslint.config.mjs";
 
 export default withNuxt(
-  sxzz(
+  adufr(
     [
       /* custom config */
     ],
