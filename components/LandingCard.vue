@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 defineProps<{
-  icon: string;
-  title: string;
-  description: string;
-}>();
+  icon: string
+  title: string
+  description: string
+}>()
 </script>
 
 <template>
   <UCard class="w-full transition-all duration-200 hover:scale-[1.02]">
     <div class="flex flex-col gap-4">
       <div
-        class="size-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800"
+        class="flex size-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800"
         :aria-label="title"
       >
         <UIcon :name="icon" class="size-5" aria-hidden="true" />

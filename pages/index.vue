@@ -1,33 +1,33 @@
 <script lang="ts" setup>
 useSeoMeta({
-  title: "iCalFilter",
+  title: 'iCalFilter',
   description:
-    "Add customizable filtering rules to existing iCalendar links. No account required, completely free",
-});
+    'Add customizable filtering rules to existing iCalendar links. No account required, completely free',
+})
 
 const accordionItems = ref([
   {
-    icon: "i-heroicons-question-mark-circle",
-    label: "What problem does this solve?",
+    icon: 'i-heroicons-question-mark-circle',
+    label: 'What problem does this solve?',
     content:
-      "iCalFilter addresses the issue of iCalendar feeds that include too many events, making it difficult to focus on what matters to you. With iCalFilter, you can apply custom filtering rules to extract only the events that match your criteria, while still benefiting from live updates.\nThis ensures you receive just the information you need, without losing the convenience of dynamic calendar synchronization.",
+      'iCalFilter addresses the issue of iCalendar feeds that include too many events, making it difficult to focus on what matters to you. With iCalFilter, you can apply custom filtering rules to extract only the events that match your criteria, while still benefiting from live updates.\nThis ensures you receive just the information you need, without losing the convenience of dynamic calendar synchronization.',
   },
   {
-    icon: "i-heroicons-cog",
-    label: "How does it work?",
+    icon: 'i-heroicons-cog',
+    label: 'How does it work?',
     content:
-      "Simply provide your existing iCalendar URL and define your filtering rules. iCalFilter generates a new URL with all your settings encoded. When this URL is accessed, it fetches your original iCalendar feed, applies your rules to filter the events, and produces a tailored iCalendar feed. You can then import this new URL into your favorite calendar app, and it will automatically stay up-to-date with your customized feed.",
+      'Simply provide your existing iCalendar URL and define your filtering rules. iCalFilter generates a new URL with all your settings encoded. When this URL is accessed, it fetches your original iCalendar feed, applies your rules to filter the events, and produces a tailored iCalendar feed. You can then import this new URL into your favorite calendar app, and it will automatically stay up-to-date with your customized feed.',
   },
-]);
+])
 </script>
 
 <template>
   <div class="flex flex-col gap-20 md:gap-40">
     <div
-      class="mt-14 sm:mt-24 md:mt-32 md:mb-10 flex items-center justify-center"
+      class="mt-14 flex items-center justify-center sm:mt-24 md:mt-32 md:mb-10"
     >
-      <div class="flex flex-col items-center text-center gap-8 md:gap-10">
-        <h1 class="text-4xl md:text-5xl font-extrabold">
+      <div class="flex flex-col items-center gap-8 text-center md:gap-10">
+        <h1 class="text-4xl font-extrabold md:text-5xl">
           Filter events from<br />
           <span class="text-primary-500">any iCalendar feed</span>
         </h1>
@@ -38,7 +38,7 @@ const accordionItems = ref([
         </p>
 
         <div class="flex flex-col items-center gap-2">
-          <div class="flex flex-col md:flex-row items-center gap-2">
+          <div class="flex flex-col items-center gap-2 md:flex-row">
             <UButton icon="i-heroicons-plus" color="primary" to="/new">
               Create a calendar
             </UButton>
@@ -69,7 +69,7 @@ const accordionItems = ref([
     </div>
 
     <div class="flex flex-col items-center justify-center gap-10">
-      <div class="flex flex-col items-center text-center gap-2">
+      <div class="flex flex-col items-center gap-2 text-center">
         <h2 class="text-2xl font-extrabold">Why iCalFilter?</h2>
         <p>
           These are the reasons why iCalFilter is the best way to filter events
@@ -77,7 +77,7 @@ const accordionItems = ref([
         </p>
       </div>
 
-      <div class="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <LandingCard
           icon="i-heroicons-rocket-launch"
           title="Powerful filtering"
@@ -107,9 +107,9 @@ const accordionItems = ref([
     </div>
 
     <div
-      class="flex flex-col items-center justify-center gap-10 mb-20 md:mb-40"
+      class="mb-20 flex flex-col items-center justify-center gap-10 md:mb-40"
     >
-      <div class="flex flex-col items-center text-center gap-2">
+      <div class="flex flex-col items-center gap-2 text-center">
         <h2 class="text-2xl font-extrabold">Frequently asked questions</h2>
         <p>Here are some frequently asked questions about iCalFilter.</p>
       </div>

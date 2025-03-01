@@ -1,32 +1,32 @@
 <script lang="ts" setup>
-const toast = useToast();
+const toast = useToast()
 
 function startTour() {
   toast.add({
-    title: "Not implemented yet!",
-    description: "This feature will be available soon.",
-    color: "warning",
-  });
+    title: 'Not implemented yet!',
+    description: 'This feature will be available soon.',
+    color: 'warning',
+  })
 }
 </script>
 
 <template>
-  <div class="h-screen w-screen p-4 grid grid-cols-5 gap-4">
+  <div class="grid h-screen w-screen grid-cols-5 gap-4 p-4">
     <!-- ---------------------------------------------------- -->
     <!-- left side: menu -->
     <!-- ---------------------------------------------------- -->
     <div
-      class="col-span-5 md:col-span-2 p-4 md:p-14 bg-primary-700 rounded-xl text-white"
+      class="bg-primary-700 col-span-5 rounded-xl p-4 text-white md:col-span-2 md:p-14"
     >
-      <div class="h-full flex flex-col justify-between gap-4">
+      <div class="flex h-full flex-col justify-between gap-4">
         <div class="flex items-center justify-between gap-2">
-          <h1 class="text-lg md:text-2xl font-bold">iCalFilter</h1>
+          <h1 class="text-lg font-bold md:text-2xl">iCalFilter</h1>
 
           <ColorModeButton />
         </div>
 
-        <div class="flex text-center md:text-left flex-col gap-5">
-          <p class="text-xl md:text-4xl font-bold">
+        <div class="flex flex-col gap-5 text-center md:text-left">
+          <p class="text-xl font-bold md:text-4xl">
             Filter events from<br />any iCalendar feed
           </p>
 
@@ -49,7 +49,7 @@ function startTour() {
         <!-- TODO: carousel testimonials -->
 
         <div
-          class="p-2 flex items-center justify-center gap-2 bg-primary-800 rounded-xl"
+          class="bg-primary-800 flex items-center justify-center gap-2 rounded-xl p-2"
         >
           <AppFooter class="" />
         </div>
@@ -59,7 +59,7 @@ function startTour() {
     <!-- ---------------------------------------------------- -->
     <!-- right side: page -->
     <!-- ---------------------------------------------------- -->
-    <div class="col-span-5 md:col-span-3 my-auto max-h-[600px] h-full md:p-10">
+    <div class="col-span-5 my-auto h-full max-h-[600px] md:col-span-3 md:p-10">
       <NuxtPage />
     </div>
   </div>

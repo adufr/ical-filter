@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const runtimeConfig = useRuntimeConfig();
-const appVersion = runtimeConfig.public.appVersion;
+const runtimeConfig = useRuntimeConfig()
+const appVersion = runtimeConfig.public.appVersion
 </script>
 
 <template>
