@@ -2,7 +2,7 @@
   "name": "ical-filter",
   "version": "0.2.0",
   "private": true,
-  "packageManager": "pnpm@9.15.8",
+  "packageManager": "pnpm@9.15.9",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
@@ -18,9 +18,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/ui": "3.0.0-beta.3",
-    "@nuxtjs/robots": "5.2.6",
-    "@nuxtjs/sitemap": "7.2.7",
+    "@nuxt/ui": "3.0.0",
+    "@nuxtjs/robots": "5.2.8",
+    "@nuxtjs/sitemap": "7.2.9",
     "@vueuse/nuxt": "12.8.2",
     "ical-generator": "^8.1.1",
     "node-ical": "^0.20.1",
@@ -34,7 +34,7 @@
     "@adufr/eslint-config": "^1.0.2",
     "@adufr/prettier-config": "^0.0.4",
     "@iconify-json/heroicons": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.27",
+    "@iconify-json/simple-icons": "^1.2.28",
     "@iconify-json/svg-spinners": "^1.2.2",
     "@nuxt/eslint": "^1.1.0",
     "@nuxt/test-utils": "^3.15.4",
