@@ -31,7 +31,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@adufr/eslint-config": "^1.0.2",
+    "@adufr/eslint-config": "^2.0.0",
     "@adufr/prettier-config": "^0.0.4",
     "@iconify-json/heroicons": "^1.2.2",
     "@iconify-json/simple-icons": "^1.2.29",
