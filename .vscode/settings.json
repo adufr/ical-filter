@@ -12,12 +12,8 @@
   // better @nuxt/ui support
   "tailwindCSS.classAttributes": ["class", "ui"],
 
-  // ------------------------------------------------------
-  // @antfu/eslint-config recommended settings
-  // ------------------------------------------------------
-
   // Disable the default formatter, use eslint instead
-  "prettier.enable": false,
+  "prettier.enable": true,
   "editor.formatOnSave": false,
 
   // Auto fix
