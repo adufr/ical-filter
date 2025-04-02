@@ -4,6 +4,12 @@ useSeoMeta({
   description:
     'Create a calendar with a custom name and URL, and add filtering rules.',
 })
+
+defineShortcuts({
+  escape: () => {
+    navigateTo('/calendars')
+  },
+})
 </script>
 
 <template>
