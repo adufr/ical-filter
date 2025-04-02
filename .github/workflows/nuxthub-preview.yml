@@ -1,4 +1,4 @@
-name: Deploy to NuxtHub
+name: Deploy to NuxtHub (Preview)
 on:
   push:
     branches:
@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy:
-    name: "Deploy to NuxtHub (Preview)"
     runs-on: ubuntu-latest
     environment:
       name: preview
