@@ -11,6 +11,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    env:
+      NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
     steps:
       - uses: actions/checkout@v4
