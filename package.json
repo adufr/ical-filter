@@ -37,11 +37,11 @@
     "@iconify-json/simple-icons": "^1.2.29",
     "@iconify-json/svg-spinners": "^1.2.2",
     "@nuxt/eslint": "^1.1.0",
-    "@nuxt/test-utils": "^3.15.4",
+    "@nuxt/test-utils": "^3.17.2",
     "@nuxthub/core": "^0.8.22",
     "@nuxtjs/plausible": "^1.2.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.4",
+    "vitest": "^3.1.1",
     "vue-tsc": "^2.2.8"
   },
   "prettier": "@adufr/prettier-config"
