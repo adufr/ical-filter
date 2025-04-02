@@ -6,7 +6,7 @@ jobs:
     name: "Deploy to NuxtHub"
     runs-on: ubuntu-latest
     environment:
-      name: ${{ startsWith(github.ref, 'refs/tags/') && 'production' || 'preview' }}
+      name: ${{ github.ref_type == 'tag' && 'production' || 'preview' }}
       url: ${{ steps.deploy.outputs.deployment-url }}
     permissions:
       contents: read
