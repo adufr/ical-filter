@@ -2,13 +2,15 @@
 import { defineOrganization } from 'nuxt-schema-org/schema'
 
 import pkgJson from './package.json'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-01-15',
 
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui',
+    '@nuxt/image',
+    '@nuxt/ui-pro',
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxtjs/plausible',
@@ -24,8 +26,8 @@ export default defineNuxtConfig({
     pageTransition: { name: 'slide', mode: 'out-in' },
   },
 
-  typescript: {
-    typeCheck: false,
+  routeRules: {
+    '/': { prerender: true },
   },
 
   runtimeConfig: {
@@ -33,6 +35,10 @@ export default defineNuxtConfig({
       nodeEnv: process.env.NODE_ENV,
       appVersion: pkgJson.version,
     },
+  },
+
+  future: {
+    compatibilityVersion: 4,
   },
 
   plausible: {
@@ -53,7 +59,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // Don't add any /secret/** URLs to the sitemap.xml
-    '/edit/**': { robots: false },
+    '/calendars/edit/**': { robots: false },
   },
   schemaOrg: {
     identity: defineOrganization({

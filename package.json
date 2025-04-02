@@ -1,9 +1,9 @@
 {
   "name": "ical-filter",
-  "type": "module",
-  "version": "0.2.0",
+  "version": "1.0.0-alpha.1",
   "private": true,
-  "packageManager": "pnpm@9.14.2",
+  "packageManager": "pnpm@10.6.5",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -12,33 +12,40 @@
     "postinstall": "nuxt prepare",
     "lint": "./node_modules/.bin/eslint --no-fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
     "lint:fix": "./node_modules/.bin/eslint --fix --quiet \"./**/*.{ts,js,vue,yaml,json}\"",
-    "type-check": "./node_modules/.bin/tsc --noEmit",
+    "format": "./node_modules/.bin/prettier --check \"./**/*.{ts,js,vue,yaml,json}\"",
+    "format:fix": "./node_modules/.bin/prettier --write \"./**/*.{ts,js,vue,yaml,json}\"",
+    "typecheck": "nuxt typecheck",
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/ui": "3.0.0-alpha.10",
-    "@nuxtjs/robots": "5.0.1",
-    "@nuxtjs/sitemap": "7.0.0",
-    "@vueuse/nuxt": "12.0.0",
-    "ical-generator": "^8.0.1",
+    "@iconify-json/lucide": "^1.2.32",
+    "@iconify-json/simple-icons": "^1.2.29",
+    "@nuxt/image": "^1.10.0",
+    "@nuxt/ui-pro": "^3.0.1",
+    "@nuxtjs/plausible": "^1.2.0",
+    "ical-generator": "^8.1.1",
     "node-ical": "^0.20.1",
-    "nuxt": "^3.14.1592",
-    "nuxt-schema-org": "4.0.4",
-    "vue": "3.5.13",
-    "vue-router": "4.5.0",
-    "zod": "^3.24.1"
+    "nuxt": "^3.16.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.0",
-    "@iconify-json/heroicons": "^1.2.1",
-    "@iconify-json/simple-icons": "^1.2.15",
-    "@iconify-json/svg-spinners": "^1.2.1",
-    "@nuxt/eslint": "^0.7.3",
-    "@nuxt/test-utils": "^3.15.1",
-    "@nuxthub/core": "^0.8.8",
-    "@nuxtjs/plausible": "^1.2.0",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
-    "vue-tsc": "^2.1.10"
-  }
+    "@adufr/eslint-config": "^2.0.0",
+    "@adufr/prettier-config": "^0.0.4",
+    "@nuxt/eslint": "^1.2.0",
+    "@nuxt/test-utils": "^3.17.2",
+    "@nuxthub/core": "^0.8.18",
+    "@nuxtjs/robots": "^5.2.8",
+    "@nuxtjs/sitemap": "^7.2.9",
+    "@vueuse/core": "^13.0.0",
+    "@vueuse/nuxt": "^13.0.0",
+    "eslint": "^9.23.0",
+    "nuxt-schema-org": "^5.0.4",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9",
+    "vue-tsc": "^2.2.8"
+  },
+  "resolutions": {
+    "vue-tsc": "2.2.0"
+  },
+  "prettier": "@adufr/prettier-config"
 }

@@ -1,31 +1,13 @@
-import antfu from '@antfu/eslint-config'
+import { adufr } from '@adufr/eslint-config'
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
-  antfu(
-    // antfu module config
+  adufr(
     {
       vue: true,
-      typescript: true,
-
-      yaml: true,
-      jsonc: true,
+      prettier: true,
       markdown: true,
     },
-    // flat configs
-    {},
-    // rules
-    {
-      rules: {
-        'vue/max-attributes-per-line': ['error', {
-          singleline: {
-            max: 2,
-          },
-          multiline: {
-            max: 1,
-          },
-        }],
-      },
-    },
+    [],
   ),
 )
