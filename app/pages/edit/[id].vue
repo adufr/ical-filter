@@ -18,7 +18,7 @@ if (!activeCalendar.value.id) {
   if (calendar) {
     activeCalendar.value = calendar
   } else {
-    navigateTo('/new')
+    navigateTo('/calendars/create')
   }
 }
 </script>
