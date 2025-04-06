@@ -4,12 +4,6 @@ useSeoMeta({
   description: 'Edit your calendar, add or remove rules, and save the changes.',
 })
 
-defineShortcuts({
-  escape: () => {
-    navigateTo('/calendars')
-  },
-})
-
 const route = useRoute()
 const { activeCalendar, calendars } = useCalendars()
 
