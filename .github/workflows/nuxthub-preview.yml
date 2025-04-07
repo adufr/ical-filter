@@ -17,13 +17,13 @@ jobs:
       NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
           node-version: 22
           cache: 'pnpm'
@@ -38,7 +38,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy to NuxtHub
-        uses: nuxt-hub/action@v1
+        uses: nuxt-hub/action@bc70fc07f9fa9b7c05588efb1cf8fb2060a48dd9 # v1
         id: deploy
         with:
           project-key: ical-filter-2xr2
