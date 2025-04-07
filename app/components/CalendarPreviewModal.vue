@@ -1,4 +1,3 @@
-components/CalendarPreviewModal.vue
 <script setup lang="ts">
 import timeGridPlugin from '@fullcalendar/timegrid'
 import FullCalendar from '@fullcalendar/vue3'
