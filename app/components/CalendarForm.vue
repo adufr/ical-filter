@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import CalendarPreviewModal from './CalendarPreviewModal.vue'
 import NewCalendarModal from './NewCalendarModal.vue'
 
 import type { FormSubmitEvent } from '@nuxt/ui'
@@ -13,8 +14,8 @@ const overlay = useOverlay()
 const router = useRouter()
 const { activeCalendar, calendars, copyCalendarLink } = useCalendars()
 
-const modal = overlay.create(NewCalendarModal)
-
+const newCalendarModal = overlay.create(NewCalendarModal)
+const calendarPreviewModal = overlay.create(CalendarPreviewModal)
 const formParams = computed(() => ({ url: activeCalendar.value.url }))
 
 const { data, status, error } = useLazyFetch('/api/cal', {
@@ -88,7 +89,7 @@ async function saveCalendar(event: FormSubmitEvent<FormSchema>) {
     }
   }
 
-  modal.open({ mode: props.mode })
+  newCalendarModal.open({ mode: props.mode })
 }
 
 function deleteCalendar() {
@@ -208,12 +209,24 @@ function deleteCalendar() {
         </UForm>
 
         <div class="flex items-center gap-2">
-          <p
+          <div
             v-if="activeCalendar.rules?.length > 0"
-            class="text-sm text-gray-400"
+            class="flex items-center gap-2"
           >
-            Found {{ filteredEvents.length }} events matching rules
-          </p>
+            <p class="text-sm text-gray-400">
+              Found {{ filteredEvents.length }} events matching rules
+            </p>
+
+            <UTooltip text="Show a preview of the calendar">
+              <UButton
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                icon="i-heroicons-question-mark-circle"
+                @click="calendarPreviewModal.open({ events: filteredEvents })"
+              />
+            </UTooltip>
+          </div>
 
           <UButton
             size="sm"
