@@ -2,7 +2,7 @@
   "name": "ical-filter",
   "version": "1.0.0-alpha.1",
   "private": true,
-  "packageManager": "pnpm@10.6.5",
+  "packageManager": "pnpm@10.8.0",
   "type": "module",
   "scripts": {
     "build": "nuxt build",
@@ -21,14 +21,14 @@
     "@fullcalendar/core": "^6.1.17",
     "@fullcalendar/timegrid": "^6.1.17",
     "@fullcalendar/vue3": "^6.1.17",
-    "@iconify-json/lucide": "^1.2.32",
-    "@iconify-json/simple-icons": "^1.2.29",
+    "@iconify-json/lucide": "^1.2.35",
+    "@iconify-json/simple-icons": "^1.2.31",
     "@nuxt/image": "^1.10.0",
-    "@nuxt/ui-pro": "^3.0.1",
+    "@nuxt/ui-pro": "^3.0.2",
     "@nuxtjs/plausible": "^1.2.0",
     "ical-generator": "^8.1.1",
     "node-ical": "^0.20.1",
-    "nuxt": "^3.16.1",
+    "nuxt": "^3.16.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -36,19 +36,19 @@
     "@adufr/prettier-config": "^0.0.4",
     "@nuxt/eslint": "^1.2.0",
     "@nuxt/test-utils": "^3.17.2",
-    "@nuxthub/core": "^0.8.18",
-    "@nuxtjs/robots": "^5.2.8",
-    "@nuxtjs/sitemap": "^7.2.9",
-    "@vueuse/core": "^13.0.0",
-    "@vueuse/nuxt": "^13.0.0",
+    "@nuxthub/core": "^0.8.24",
+    "@nuxtjs/robots": "^5.2.9",
+    "@nuxtjs/sitemap": "^7.2.10",
+    "@vueuse/core": "^13.1.0",
+    "@vueuse/nuxt": "^13.1.0",
     "eslint": "^9.23.0",
     "nuxt-schema-org": "^5.0.4",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.9",
     "vue-tsc": "^2.2.8"
   },
   "resolutions": {
-    "vue-tsc": "2.2.0"
+    "vue-tsc": "2.2.8"
   },
   "prettier": "@adufr/prettier-config"
 }
