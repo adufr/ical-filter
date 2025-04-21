@@ -38,7 +38,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy to NuxtHub
-        uses: nuxt-hub/action@6b31face072e5992ae5e2a020c05bc0b6dd4b6a6 # v1
+        uses: nuxt-hub/action@5719fa3e1c6bf9456c4e831b12ee717f66a4a0c4 # v1
         id: deploy
         with:
           project-key: ical-filter-2xr2
