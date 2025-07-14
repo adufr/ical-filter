@@ -29,7 +29,7 @@
     "ical-generator": "^8.1.1",
     "node-ical": "^0.20.1",
     "nuxt": "^3.17.6",
-    "zod": "^3.25.67"
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@adufr/eslint-config": "^2.0.0",
