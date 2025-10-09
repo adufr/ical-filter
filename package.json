@@ -26,7 +26,7 @@
     "@nuxt/image": "^1.11.0",
     "@nuxt/ui-pro": "^3.3.6",
     "@nuxtjs/plausible": "^1.2.0",
-    "ical-generator": "^8.1.1",
+    "ical-generator": "^9.0.0",
     "node-ical": "^0.21.0",
     "nuxt": "^3.18.1",
     "zod": "^3.25.76"
