@@ -45,10 +45,10 @@
     "nuxt-schema-org": "^5.0.9",
     "typescript": "^5.9.3",
     "vitest": "^3.0.9",
-    "vue-tsc": "^2.2.12"
+    "vue-tsc": "^3.2.4"
   },
   "resolutions": {
-    "vue-tsc": "^2.2.12"
+    "vue-tsc": "^3.2.4"
   },
   "prettier": "@adufr/prettier-config"
 }
