@@ -28,6 +28,8 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+    // Don't add any /secret/** URLs to the sitemap.xml
+    '/calendars/edit/**': { robots: false },
   },
 
   runtimeConfig: {
@@ -56,10 +58,6 @@ export default defineNuxtConfig({
   site: {
     url: 'https://ical-filter.arthurdufour.dev',
     name: 'iCalFilter',
-  },
-  routeRules: {
-    // Don't add any /secret/** URLs to the sitemap.xml
-    '/calendars/edit/**': { robots: false },
   },
   schemaOrg: {
     identity: defineOrganization({
