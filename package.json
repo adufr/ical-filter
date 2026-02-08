@@ -26,10 +26,10 @@
     "@fullcalendar/vue3": "^6.1.20",
     "@iconify-json/lucide": "^1.2.89",
     "@iconify-json/simple-icons": "^1.2.70",
-    "@nuxt/image": "^1.11.0",
+    "@nuxt/image": "^2.0.0",
     "@nuxt/ui-pro": "^3.3.7",
     "@nuxtjs/plausible": "^1.2.0",
-    "ical-generator": "^8.1.1",
+    "ical-generator": "^10.0.0",
     "node-ical": "^0.25.1",
     "nuxt": "^4.3.1",
     "zod": "^4.3.6"
