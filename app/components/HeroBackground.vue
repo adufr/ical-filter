@@ -11,7 +11,7 @@ const opacityValues = computed(() => ({
 </script>
 
 <template>
-  <div>
+  <ClientOnly>
     <svg
       viewBox="0 0 1440 181"
       fill="none"
@@ -64,5 +64,5 @@ const opacityValues = computed(() => ({
         </linearGradient>
       </defs>
     </svg>
-  </div>
+  </ClientOnly>
 </template>

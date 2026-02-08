@@ -10,7 +10,10 @@ useSeoMeta({
 <template>
   <div class="relative">
     <UPageHero
-      :ui="{ container: 'md:pt-28 lg:pt-40' }"
+      :ui="{
+        container: 'md:pt-28 lg:pt-40',
+        title: 'mx-auto max-w-3xl text-4xl font-extrabold lg:text-6xl',
+      }"
       :links="[
         {
           label: 'Create a calendar',
@@ -30,10 +33,8 @@ useSeoMeta({
       ]"
     >
       <template #title>
-        <h1 class="mx-auto max-w-3xl text-4xl font-extrabold lg:text-6xl">
-          Filter events from<br />
-          <span class="text-(--ui-primary)">any iCalendar feed</span>
-        </h1>
+        Filter events from<br />
+        <span class="text-primary">any iCalendar feed</span>
       </template>
 
       <template #description>
@@ -96,9 +97,7 @@ useSeoMeta({
       <div
         class="absolute -right-10 -bottom-10 z-10 size-[300px] rounded-full bg-(--ui-primary) opacity-30 blur-[200px]"
       />
-      <template #title>
-        <h2 class="*:leading-9">What can iCalFilter do?</h2>
-      </template>
+      <template #title>What can iCalFilter do?</template>
 
       <template #description>
         <p>
@@ -111,9 +110,7 @@ useSeoMeta({
     <USeparator :ui="{ border: 'border-(--ui-primary)/30' }" />
 
     <UPageSection id="faq" class="relative overflow-hidden">
-      <template #title>
-        <h2 class="*:leading-9">Frequently asked questions</h2>
-      </template>
+      <template #title>Frequently asked questions</template>
 
       <template #description>
         <p>Here are some questions you might have about iCalFilter.</p>
