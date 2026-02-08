@@ -1,4 +1,8 @@
-import type { VEvent } from 'node-ical'
+import type { ParameterValue, VEvent } from 'node-ical'
+
+function toPlainText(value: ParameterValue | undefined): string | undefined {
+  return typeof value === 'string' ? value : value?.val
+}
 
 export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
   return icsEvents.filter((event) => {
@@ -6,13 +10,13 @@ export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
 
     switch (rule.f) {
       case ruleFields.summary:
-        fieldValue = event.summary
+        fieldValue = toPlainText(event.summary)
         break
       case ruleFields.description:
-        fieldValue = event.description
+        fieldValue = toPlainText(event.description)
         break
       case ruleFields.location:
-        fieldValue = event.location
+        fieldValue = toPlainText(event.location)
         break
       default:
         return false

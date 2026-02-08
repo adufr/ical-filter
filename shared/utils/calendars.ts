@@ -1,4 +1,4 @@
-import type { Calendar } from '~/types'
+import type { Calendar } from '../types'
 
 export function getCalendarUrl(calendar: Calendar) {
   const queryParams = new URLSearchParams()

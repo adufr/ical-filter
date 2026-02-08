@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   try {
     const ics = await ical.async.fromURL(url)
     const icsEvents = Object.values(ics).filter(
-      (item): item is VEvent => item.type === 'VEVENT',
+      (item): item is VEvent => item?.type === 'VEVENT',
     )
 
     return { events: icsEvents }
