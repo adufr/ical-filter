@@ -1,9 +1,12 @@
 {
   "name": "ical-filter",
+  "type": "module",
   "version": "1.0.0-alpha.1",
   "private": true,
   "packageManager": "pnpm@10.18.1",
-  "type": "module",
+  "engines": {
+    "node": "24.13.0"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
