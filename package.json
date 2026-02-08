@@ -39,7 +39,6 @@
     "@adufr/prettier-config": "^1.0.2",
     "@nuxt/eslint": "^1.14.0",
     "@nuxt/test-utils": "^4.0.0",
-    "@nuxthub/core": "^0.10.6",
     "@nuxtjs/robots": "^5.7.0",
     "@nuxtjs/sitemap": "^7.6.0",
     "@vue/test-utils": "^2.4.6",

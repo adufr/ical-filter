@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/ui-pro',
     '@vueuse/nuxt',
-    '@nuxthub/core',
     '@nuxtjs/plausible',
     '@nuxt/test-utils/module',
     '@nuxtjs/robots',
