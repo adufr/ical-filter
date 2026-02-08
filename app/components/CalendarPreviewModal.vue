@@ -11,14 +11,20 @@ const props = defineProps<{
   events: VEvent[]
 }>()
 
+function toPlainText(
+  value: VEvent['summary'] | VEvent['description'] | VEvent['location'],
+) {
+  return typeof value === 'string' ? value : value?.val
+}
+
 const calendarEvents = computed(() =>
   props.events.map((event) => ({
-    title: event.summary,
+    title: toPlainText(event.summary),
     start: event.start,
     end: event.end,
     extendedProps: {
-      description: event.description,
-      location: event.location,
+      description: toPlainText(event.description),
+      location: toPlainText(event.location),
     },
   })),
 )

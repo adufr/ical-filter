@@ -17,12 +17,12 @@ onMounted(() => {
   <div class="flex min-h-screen flex-col">
     <AppHeader />
 
-    <div class="relative flex-grow">
+    <div class="relative grow">
       <HeroBackground
-        class="absolute -top-px -z-10 w-full shrink-0 text-(--ui-primary) transition-all"
+        class="text-primary absolute -top-px -z-10 w-full shrink-0 transition-all"
         :class="[
           isLoading ? 'animate-pulse' : appear ? '' : 'opacity-0',
-          appeared ? 'duration-[400ms]' : 'duration-1000',
+          appeared ? 'duration-400' : 'duration-1000',
         ]"
       />
       <NuxtPage />

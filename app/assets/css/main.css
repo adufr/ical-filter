@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "@nuxt/ui-pro";
+@import 'tailwindcss';
+@import '@nuxt/ui-pro';
 
 @theme {
   /* fonts are automatically downloaded thanks to @nuxjs/fonts */

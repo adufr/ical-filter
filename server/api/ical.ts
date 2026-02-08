@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     // 1. fetch and parse the calendar
     const ics = await ical.async.fromURL(url)
     const icsEvents = Object.values(ics).filter(
-      (item): item is VEvent => item.type === 'VEVENT',
+      (item): item is VEvent => item?.type === 'VEVENT',
     )
 
     // 2. filter events based on rules
