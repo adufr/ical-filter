@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@adufr/eslint-config": "^2.0.0",
-    "@adufr/prettier-config": "^0.0.4",
+    "@adufr/prettier-config": "^1.0.2",
     "@nuxt/eslint": "^1.3.0",
     "@nuxt/test-utils": "^3.17.2",
     "@nuxthub/core": "^0.9.0",
