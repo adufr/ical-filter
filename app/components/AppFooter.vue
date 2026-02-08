@@ -4,7 +4,13 @@
   <UFooter :ui="{ top: 'border-b border-(--ui-border)' }">
     <template #left>
       <p class="text-sm text-(--ui-text-muted)">
-        Arthur Dufour © {{ new Date().getFullYear() }}. All rights reserved.
+        <a
+          href="https://arthurdufour.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Arthur Dufour</a
+        >
+        © {{ new Date().getFullYear() }}. All rights reserved.
       </p>
     </template>
 

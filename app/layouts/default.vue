@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { SpeedInsights } from '@vercel/speed-insights/nuxt'
+
 const { isLoading } = useLoadingIndicator()
 const appear = ref(false)
 const appeared = ref(false)
@@ -29,5 +31,6 @@ onMounted(() => {
     </div>
 
     <AppFooter />
+    <SpeedInsights />
   </div>
 </template>
