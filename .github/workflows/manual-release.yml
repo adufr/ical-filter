@@ -59,21 +59,14 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: Bump Frontend Version
+      - name: Bump version
         run: |
-          cd frontend
-          npm version ${{ github.event.inputs.version }} --no-git-tag-version
-          cd ..
-
-      - name: Bump Backend Version
-        run: |
-          cd backend
           npm version ${{ github.event.inputs.version }} --no-git-tag-version
           cd ..
 
       - name: Commit Version Bump
         run: |
-          git add backend/package.json frontend/package.json
+          git add package.json
           git commit -m "chore(release): ${{ github.event.inputs.version }}"
 
       - name: Push Version Bump to develop
