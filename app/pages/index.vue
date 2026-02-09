@@ -63,6 +63,12 @@ useSeoMeta({
             'Customizable filtering rules, supports regular expressions',
         },
         {
+          icon: 'i-material-symbols-find-replace',
+          title: 'Replacement rules',
+          description:
+            'Replace text in event titles, descriptions and locations using regular expressions',
+        },
+        {
           icon: 'i-heroicons-calendar',
           title: 'Events preview',
           description:
