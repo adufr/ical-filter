@@ -13,5 +13,15 @@ export function getCalendarUrl(calendar: Calendar) {
   }))
   for (const rule of r) queryParams.append('rules', JSON.stringify(rule))
 
+  const replacements = (calendar.replacements ?? []).map((replacement) => ({
+    f: replacement.f,
+    cs: replacement.cs,
+    from: replacement.from,
+    to: replacement.to,
+  }))
+  for (const replacement of replacements) {
+    queryParams.append('replacements', JSON.stringify(replacement))
+  }
+
   return `/api/ical?${queryParams.toString()}`
 }

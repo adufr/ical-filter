@@ -88,6 +88,50 @@ describe('applyRuleFilter', () => {
     expect(filteredIgnoreCase).toHaveLength(1)
     expect(filteredIgnoreCase[0]?.description).toBe('Team lunch')
   })
+
+  it('filters by regex literal', () => {
+    const rule: Rule = { f: 's', t: 'r', cs: true, v: '/^(Team|Lunch)/' }
+    const filtered = applyRuleFilter(mockEvents, rule)
+
+    expect(filtered).toHaveLength(2)
+    expect(filtered[0]?.summary).toBe('Team Meeting')
+    expect(filtered[1]?.summary).toBe('Lunch Break')
+  })
+
+  it('supports regex without delimiters', () => {
+    const rule: Rule = { f: 'l', t: 'r', cs: true, v: 'Room|Cafeteria' }
+    const filtered = applyRuleFilter(mockEvents, rule)
+
+    expect(filtered).toHaveLength(2)
+    expect(filtered[0]?.location).toBe('Room 101')
+    expect(filtered[1]?.location).toBe('Cafeteria')
+  })
+
+  it('applies case sensitivity to regex filters', () => {
+    const ruleCaseSensitive: Rule = { f: 's', t: 'r', cs: true, v: '/team/' }
+    const ruleIgnoreCase: Rule = { f: 's', t: 'r', cs: false, v: '/team/' }
+
+    const filteredSensitive = applyRuleFilter(mockEvents, ruleCaseSensitive)
+    expect(filteredSensitive).toHaveLength(0)
+
+    const filteredIgnoreCase = applyRuleFilter(mockEvents, ruleIgnoreCase)
+    expect(filteredIgnoreCase).toHaveLength(1)
+    expect(filteredIgnoreCase[0]?.summary).toBe('Team Meeting')
+  })
+
+  it('supports regex literals with global flag in filters', () => {
+    const rule: Rule = { f: 's', t: 'r', cs: true, v: '/(Team|Lunch)/g' }
+    const filtered = applyRuleFilter(mockEvents, rule)
+
+    expect(filtered).toHaveLength(2)
+  })
+
+  it('returns no matches when regex filter is invalid', () => {
+    const rule: Rule = { f: 's', t: 'r', cs: true, v: '/(/' }
+    const filtered = applyRuleFilter(mockEvents, rule)
+
+    expect(filtered).toHaveLength(0)
+  })
 })
 
 describe('applyRulesFilters', () => {
@@ -111,5 +155,75 @@ describe('applyRulesFilters', () => {
     expect(filtered).toHaveLength(2)
     expect(filtered[0]?.summary).toBe('Team Meeting')
     expect(filtered[1]?.location).toBe('Veterinary Clinic')
+  })
+})
+
+describe('applyReplaceRules', () => {
+  it('replaces summary text with case sensitivity', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: 'Team', to: 'Product' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Product Meeting')
+    expect(replaced[1]?.summary).toBe('Lunch Break')
+  })
+
+  it('replaces description text without case sensitivity', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 'd', cs: false, from: 'team', to: 'engineering' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.description).toBe('Weekly sync')
+    expect(replaced[1]?.description).toBe('engineering lunch')
+  })
+
+  it('applies replacement rules sequentially', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: 'Team', to: 'Product' },
+      { f: 's', cs: true, from: 'Product', to: 'Core Product' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Core Product Meeting')
+  })
+
+  it('does not mutate input events', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 'l', cs: true, from: 'Room', to: 'Office' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.location).toBe('Office 101')
+    expect(mockEvents[0]?.location).toBe('Room 101')
+  })
+
+  it('supports regex literal replacements', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: '/(Team|Lunch)/g', to: 'Focus' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Focus Meeting')
+    expect(replaced[1]?.summary).toBe('Focus Break')
+  })
+
+  it('applies cs flag to regex literal replacements', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: false, from: '/team/', to: 'Focus' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Focus Meeting')
+  })
+
+  it('falls back to plain string replacement when regex is invalid', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: '/(/', to: 'X' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Team Meeting')
   })
 })

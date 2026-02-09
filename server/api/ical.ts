@@ -4,19 +4,37 @@ import { z } from 'zod'
 
 const querySchema = z.object({
   name: z.string(),
-  url: z.string().url(),
-  rules: z.union([
-    stringToJSONSchema.pipe(ruleSchema),
-    z.array(stringToJSONSchema.pipe(ruleSchema)),
-  ]),
+  url: z.url(),
+  rules: z
+    .union([
+      stringToJSONSchema.pipe(ruleSchema),
+      z.array(stringToJSONSchema.pipe(ruleSchema)),
+    ])
+    .optional(),
+  replacements: z
+    .union([
+      stringToJSONSchema.pipe(replaceRuleSchema),
+      z.array(stringToJSONSchema.pipe(replaceRuleSchema)),
+    ])
+    .optional(),
 })
 
 export default defineEventHandler(async (event) => {
-  let { name, url, rules } = await getValidatedQuery(event, (query) =>
-    querySchema.parse(query),
+  const { name, url, rules, replacements } = await getValidatedQuery(
+    event,
+    (query) => querySchema.parse(query),
   )
 
-  rules = Array.isArray(rules) ? rules : ([rules] as Rule[])
+  const filterRules = Array.isArray(rules)
+    ? rules
+    : rules
+      ? [rules]
+      : ([] as Rule[])
+  const replaceRules = Array.isArray(replacements)
+    ? replacements
+    : replacements
+      ? [replacements]
+      : ([] as ReplaceRule[])
 
   try {
     // 1. fetch and parse the calendar
@@ -25,15 +43,19 @@ export default defineEventHandler(async (event) => {
       (item): item is VEvent => item?.type === 'VEVENT',
     )
 
-    // 2. filter events based on rules
-    const filteredEvents = applyRulesFilters(icsEvents, rules as Rule[])
+    // 2. filter and transform events based on rules
+    const filteredEvents =
+      filterRules.length > 0
+        ? applyRulesFilters(icsEvents, filterRules)
+        : icsEvents
+    const transformedEvents = applyReplaceRules(filteredEvents, replaceRules)
 
     // 3. return data as ics
     const calendar = new ICalCalendar({ name })
     calendar.timezone('Europe/Paris')
 
-    for (const event of filteredEvents) {
-      calendar.createEvent(event as unknown as ICalEventData)
+    for (const filteredEvent of transformedEvents) {
+      calendar.createEvent(filteredEvent as unknown as ICalEventData)
     }
 
     setResponseHeader(event, 'content-type', 'text/calendar')

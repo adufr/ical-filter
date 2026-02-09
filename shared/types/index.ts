@@ -11,13 +11,13 @@ export const ruleFields = {
 } as const
 export type RuleField = (typeof ruleFields)[keyof typeof ruleFields]
 
-// TODO: regex
 export const ruleTypes = {
   contains: 'c',
   equals: '=',
   notEquals: '!',
   startsWith: 's',
   endsWith: 'e',
+  regex: 'r',
 } as const
 export type RuleType = (typeof ruleTypes)[keyof typeof ruleTypes]
 
@@ -28,9 +28,17 @@ export interface Rule {
   v: string
 }
 
+export interface ReplaceRule {
+  f: RuleField
+  cs: boolean
+  from: string
+  to: string
+}
+
 export interface Calendar {
   id?: string
   url: string
   name: string
   rules: Rule[]
+  replacements?: ReplaceRule[]
 }

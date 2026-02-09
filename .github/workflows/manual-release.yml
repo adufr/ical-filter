@@ -1,0 +1,89 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The release version (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  wait_for_ci:
+    name: Wait for CI Tests
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - name: Check CI Tests Workflow Status
+        id: check_ci
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const workflows = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: 'ci.yml',
+              branch: 'develop',
+              status: 'success',
+              per_page: 1
+            });
+
+            if (workflows.data.workflow_runs.length === 0) {
+              core.setFailed('No successful CI tests workflow run found on develop branch');
+              return;
+            }
+
+            console.log('Latest successful CI workflow run found:', workflows.data.workflow_runs[0].html_url);
+            return workflows.data.workflow_runs[0];
+
+  release:
+    needs: wait_for_ci
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          # We need to fetch all history for all branches for the merge to work correctly.
+          fetch-depth: 0
+          # We check out the develop branch to work on it first.
+          ref: develop
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Bump version
+        run: |
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          cd ..
+
+      - name: Commit Version Bump
+        run: |
+          git add package.json
+          git commit -m "chore(release): ${{ github.event.inputs.version }}"
+
+      - name: Push Version Bump to develop
+        run: git push origin develop
+
+      - name: Merge develop into main
+        run: |
+          # Switch to the main branch
+          git switch main
+          # Ensure main is up-to-date with remote
+          git pull origin main
+          # Merge the develop branch
+          git merge --no-ff develop
+          # Push the merge commit to main
+          git push origin main
+
+      - name: Create GitHub Tag for the release
+        run: |
+          git tag -a "v${{ github.event.inputs.version }}" -m "Release ${{ github.event.inputs.version }}"
+          git push origin "v${{ github.event.inputs.version }}"

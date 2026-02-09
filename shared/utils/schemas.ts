@@ -12,18 +12,28 @@ export const stringToJSONSchema = z
   })
 
 export const ruleSchema = z.object({
-  f: z.nativeEnum(ruleFields),
-  t: z.nativeEnum(ruleTypes),
+  f: z.enum(ruleFields),
+  t: z.enum(ruleTypes),
   cs: z.boolean(),
   v: z.string(),
 })
 
 export type RuleSchema = z.output<typeof ruleSchema>
 
+export const replaceRuleSchema = z.object({
+  f: z.enum(ruleFields),
+  cs: z.boolean(),
+  from: z.string(),
+  to: z.string(),
+})
+
+export type ReplaceRuleSchema = z.output<typeof replaceRuleSchema>
+
 export const formSchema = z.object({
-  url: z.string().url(),
+  url: z.url(),
   name: z.string().min(1),
-  rules: z.array(ruleSchema),
+  rules: z.array(ruleSchema).default([]),
+  replacements: z.array(replaceRuleSchema).default([]),
 })
 
 export type FormSchema = z.output<typeof formSchema>
