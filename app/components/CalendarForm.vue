@@ -146,7 +146,7 @@ function deleteCalendar() {
           <p v-else-if="error" class="text-red-500 dark:text-red-400">
             An error has occured: make sure the URL is a valid iCalendar URL
           </p>
-          <p v-else>Found a total of {{ data?.events.length }} events</p>
+          <p v-else>Found a total of {{ data?.events.length ?? 0 }} events</p>
         </div>
       </div>
 
