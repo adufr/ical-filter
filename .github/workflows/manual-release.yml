@@ -29,12 +29,12 @@ jobs:
               status: 'success',
               per_page: 1
             });
-            
+
             if (workflows.data.workflow_runs.length === 0) {
               core.setFailed('No successful CI tests workflow run found on develop branch');
               return;
             }
-            
+
             console.log('Latest successful CI workflow run found:', workflows.data.workflow_runs[0].html_url);
             return workflows.data.workflow_runs[0];
 
@@ -52,7 +52,7 @@ jobs:
           # We need to fetch all history for all branches for the merge to work correctly.
           fetch-depth: 0
           # We check out the develop branch to work on it first.
-          ref: 'develop'
+          ref: develop
 
       - name: Configure Git
         run: |
@@ -94,4 +94,3 @@ jobs:
         run: |
           git tag -a "v${{ github.event.inputs.version }}" -m "Release ${{ github.event.inputs.version }}"
           git push origin "v${{ github.event.inputs.version }}"
-
