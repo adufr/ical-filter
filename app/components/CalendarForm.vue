@@ -18,7 +18,7 @@ const newCalendarModal = overlay.create(NewCalendarModal)
 const calendarPreviewModal = overlay.create(CalendarPreviewModal)
 const formParams = computed(() => ({ url: activeCalendar.value.url }))
 
-const { data, status, error } = useLazyFetch('/api/cal', {
+const { data, status, error, refresh } = useLazyFetch('/api/cal', {
   params: formParams,
   immediate: Boolean(activeCalendar.value.url),
 })
@@ -133,6 +133,7 @@ function deleteCalendar() {
             class="w-full"
             placeholder="Enter your iCalendar URL..."
             leading-icon="i-heroicons-link"
+            @change="refresh()"
           />
         </UFormField>
 
