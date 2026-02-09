@@ -10,21 +10,31 @@ const calendarsWithCounts = ref<
 >([])
 
 function editCalendar(calendar: Calendar) {
-  activeCalendar.value = calendar
+  activeCalendar.value = {
+    ...calendar,
+    rules: calendar.rules ?? [],
+    replacements: calendar.replacements ?? [],
+  }
   router.push(`/edit/${calendar.id}`)
 }
 
 onMounted(async () => {
   for (const calendar of calendars.value) {
     const data = await $fetch(`/api/cal?url=${calendar.url}`)
+    const parsedEvents = data.events as unknown as VEvent[]
+    const filteredEvents =
+      calendar.rules.length > 0
+        ? applyRulesFilters(parsedEvents, calendar.rules)
+        : parsedEvents
+    const previewEvents = applyReplaceRules(
+      filteredEvents,
+      calendar.replacements ?? [],
+    )
 
     calendarsWithCounts.value.push({
       ...calendar,
-      eventsCount: data?.events.length,
-      filteredEventsCount: applyRulesFilters(
-        data.events as unknown as VEvent[],
-        calendar.rules,
-      ).length,
+      eventsCount: parsedEvents.length,
+      filteredEventsCount: previewEvents.length,
     })
   }
 

@@ -113,3 +113,73 @@ describe('applyRulesFilters', () => {
     expect(filtered[1]?.location).toBe('Veterinary Clinic')
   })
 })
+
+describe('applyReplaceRules', () => {
+  it('replaces summary text with case sensitivity', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: 'Team', to: 'Product' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Product Meeting')
+    expect(replaced[1]?.summary).toBe('Lunch Break')
+  })
+
+  it('replaces description text without case sensitivity', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 'd', cs: false, from: 'team', to: 'engineering' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.description).toBe('Weekly sync')
+    expect(replaced[1]?.description).toBe('engineering lunch')
+  })
+
+  it('applies replacement rules sequentially', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: 'Team', to: 'Product' },
+      { f: 's', cs: true, from: 'Product', to: 'Core Product' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Core Product Meeting')
+  })
+
+  it('does not mutate input events', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 'l', cs: true, from: 'Room', to: 'Office' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.location).toBe('Office 101')
+    expect(mockEvents[0]?.location).toBe('Room 101')
+  })
+
+  it('supports regex literal replacements', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: '/(Team|Lunch)/g', to: 'Focus' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Focus Meeting')
+    expect(replaced[1]?.summary).toBe('Focus Break')
+  })
+
+  it('applies cs flag to regex literal replacements', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: false, from: '/team/', to: 'Focus' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Focus Meeting')
+  })
+
+  it('falls back to plain string replacement when regex is invalid', () => {
+    const replacements: ReplaceRule[] = [
+      { f: 's', cs: true, from: '/(/', to: 'X' },
+    ]
+    const replaced = applyReplaceRules(mockEvents, replacements)
+
+    expect(replaced[0]?.summary).toBe('Team Meeting')
+  })
+})

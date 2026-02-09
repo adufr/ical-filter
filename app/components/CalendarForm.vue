@@ -26,11 +26,21 @@ const { data, status, error, refresh } = useLazyFetch('/api/cal', {
 const filteredRules = computed(() =>
   (activeCalendar.value.rules ?? []).filter((rule) => rule.v),
 )
-const filteredEvents = computed(() =>
-  applyRulesFilters(
-    (data.value?.events ?? []) as unknown as VEvent[],
-    filteredRules.value,
+const filteredReplaceRules = computed(() =>
+  (activeCalendar.value.replacements ?? []).filter(
+    (replacement) => replacement.from,
   ),
+)
+const parsedEvents = computed(
+  () => (data.value?.events ?? []) as unknown as VEvent[],
+)
+const eventsMatchingFilters = computed(() =>
+  filteredRules.value.length > 0
+    ? applyRulesFilters(parsedEvents.value, filteredRules.value)
+    : parsedEvents.value,
+)
+const previewEvents = computed(() =>
+  applyReplaceRules(eventsMatchingFilters.value, filteredReplaceRules.value),
 )
 
 // --------------------------------------------------------------------------
@@ -42,7 +52,15 @@ if (props.mode === 'new') {
     name: '',
     url: '',
     rules: [],
+    replacements: [],
   }
+}
+
+if (!activeCalendar.value.rules) {
+  activeCalendar.value.rules = []
+}
+if (!activeCalendar.value.replacements) {
+  activeCalendar.value.replacements = []
 }
 
 // --------------------------------------------------------------------------
@@ -65,6 +83,19 @@ function addRule() {
 
 function removeRule(index: number) {
   activeCalendar.value.rules?.splice(index, 1)
+}
+
+function addReplaceRule() {
+  activeCalendar.value.replacements?.push({
+    f: 's',
+    cs: true,
+    from: '',
+    to: '',
+  })
+}
+
+function removeReplaceRule(index: number) {
+  activeCalendar.value.replacements?.splice(index, 1)
 }
 
 // --------------------------------------------------------------------------
@@ -152,82 +183,63 @@ function deleteCalendar() {
       </div>
 
       <!-- rules -->
-      <div class="h-full">
-        <label class="mb-1 block text-sm font-medium">Filtering rules</label>
-        <!-- TODO: add a tooltip explaining the filtering rules -->
+      <div class="flex h-full flex-col gap-4">
+        <div>
+          <label class="mb-1 block text-sm font-medium">Filtering rules</label>
+          <!-- TODO: add a tooltip explaining the filtering rules -->
 
-        <UForm
-          v-for="(rule, index) in activeCalendar.rules"
-          :key="index"
-          :state="rule"
-          :schema="ruleSchema"
-        >
-          <UButtonGroup>
-            <UFormField name="f">
-              <USelect
-                v-model="rule.f"
-                :items="ruleFieldsItems"
-                class="w-full max-w-32 rounded-r-none"
-              />
-            </UFormField>
-
-            <UFormField name="t">
-              <USelect
-                v-model="rule.t"
-                :items="ruleTypesItems"
-                class="w-full max-w-32 rounded-none"
-              />
-            </UFormField>
-
-            <UFormField name="cs">
-              <USelect
-                v-model="rule.cs"
-                :items="ruleCsItems"
-                class="w-full max-w-40 rounded-none"
-              />
-            </UFormField>
-
-            <UFormField name="v" class="w-full">
-              <UInput
-                v-model="rule.v"
-                class="w-full rounded-l-none rounded-r-none"
-                placeholder="Enter some text..."
-                :ui="{
-                  base: 'rounded-l-none rounded-r-none',
-                }"
-              />
-            </UFormField>
-
-            <UFormField>
-              <UButton
-                variant="soft"
-                icon="i-heroicons-trash"
-                class="rounded-l-none"
-                @click="removeRule(index)"
-              />
-            </UFormField>
-          </UButtonGroup>
-        </UForm>
-
-        <div class="flex items-center gap-2">
-          <div
-            v-if="activeCalendar.rules?.length > 0"
-            class="flex items-center gap-2"
+          <UForm
+            v-for="(rule, index) in activeCalendar.rules"
+            :key="index"
+            :state="rule"
+            :schema="ruleSchema"
           >
-            <p class="text-sm text-gray-400">
-              Found {{ filteredEvents.length }} events matching rules
-            </p>
+            <UButtonGroup>
+              <UFormField name="f">
+                <USelect
+                  v-model="rule.f"
+                  :items="ruleFieldsItems"
+                  class="w-full max-w-32 rounded-r-none"
+                />
+              </UFormField>
 
-            <UTooltip text="Show a preview of the calendar">
-              <UButton
-                size="sm"
-                color="neutral"
-                variant="ghost"
-                icon="i-heroicons-question-mark-circle"
-                @click="calendarPreviewModal.open({ events: filteredEvents })"
-              />
-            </UTooltip>
-          </div>
+              <UFormField name="t">
+                <USelect
+                  v-model="rule.t"
+                  :items="ruleTypesItems"
+                  class="w-full max-w-32 rounded-none"
+                />
+              </UFormField>
+
+              <UFormField name="cs">
+                <USelect
+                  v-model="rule.cs"
+                  :items="ruleCsItems"
+                  class="w-full max-w-40 rounded-none"
+                />
+              </UFormField>
+
+              <UFormField name="v" class="w-full">
+                <UInput
+                  v-model="rule.v"
+                  class="w-full rounded-l-none rounded-r-none"
+                  placeholder="Enter some text..."
+                  :ui="{
+                    base: 'rounded-l-none rounded-r-none',
+                  }"
+                />
+              </UFormField>
+
+              <UFormField>
+                <UButton
+                  variant="soft"
+                  icon="i-heroicons-trash"
+                  class="rounded-l-none"
+                  @click="removeRule(index)"
+                />
+              </UFormField>
+            </UButtonGroup>
+          </UForm>
 
           <UButton
             size="sm"
@@ -238,6 +250,102 @@ function deleteCalendar() {
           >
             Add rule
           </UButton>
+        </div>
+
+        <div>
+          <label class="mb-1 block text-sm font-medium"
+            >Replacement rules</label
+          >
+
+          <UForm
+            v-for="(replaceRule, index) in activeCalendar.replacements"
+            :key="`replace-${index}`"
+            :state="replaceRule"
+            :schema="replaceRuleSchema"
+          >
+            <UButtonGroup>
+              <UFormField name="f">
+                <USelect
+                  v-model="replaceRule.f"
+                  :items="ruleFieldsItems"
+                  class="w-full max-w-32 rounded-r-none"
+                />
+              </UFormField>
+
+              <UFormField name="cs">
+                <USelect
+                  v-model="replaceRule.cs"
+                  :items="ruleCsItems"
+                  class="w-full max-w-40 rounded-none"
+                />
+              </UFormField>
+
+              <UFormField name="from" class="w-full">
+                <UInput
+                  v-model="replaceRule.from"
+                  class="w-full rounded-l-none rounded-r-none"
+                  placeholder="Replace this... or /regex/flags"
+                  :ui="{
+                    base: 'rounded-l-none rounded-r-none',
+                  }"
+                />
+              </UFormField>
+
+              <UFormField name="to" class="w-full">
+                <UInput
+                  v-model="replaceRule.to"
+                  class="w-full rounded-l-none rounded-r-none"
+                  placeholder="With this..."
+                  :ui="{
+                    base: 'rounded-l-none rounded-r-none',
+                  }"
+                />
+              </UFormField>
+
+              <UFormField>
+                <UButton
+                  variant="soft"
+                  icon="i-heroicons-trash"
+                  class="rounded-l-none"
+                  @click="removeReplaceRule(index)"
+                />
+              </UFormField>
+            </UButtonGroup>
+          </UForm>
+
+          <UButton
+            size="sm"
+            variant="ghost"
+            color="neutral"
+            icon="i-heroicons-plus"
+            @click="addReplaceRule()"
+          >
+            Add replace
+          </UButton>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div
+            v-if="
+              (activeCalendar.rules?.length ?? 0) > 0 ||
+              (activeCalendar.replacements?.length ?? 0) > 0
+            "
+            class="flex items-center gap-2"
+          >
+            <p class="text-sm text-gray-400">
+              Found {{ previewEvents.length }} events in preview
+            </p>
+
+            <UTooltip text="Show a preview of the calendar">
+              <UButton
+                size="sm"
+                color="neutral"
+                variant="ghost"
+                icon="i-heroicons-question-mark-circle"
+                @click="calendarPreviewModal.open({ events: previewEvents })"
+              />
+            </UTooltip>
+          </div>
         </div>
       </div>
     </div>

@@ -10,7 +10,11 @@ const { activeCalendar, calendars } = useCalendars()
 onMounted(() => {
   const calendar = calendars.value.find((c) => c.id === route.params.id)
   if (calendar) {
-    activeCalendar.value = calendar
+    activeCalendar.value = {
+      ...calendar,
+      rules: calendar.rules ?? [],
+      replacements: calendar.replacements ?? [],
+    }
   } else {
     navigateTo('/calendars/create')
   }

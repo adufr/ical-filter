@@ -9,6 +9,7 @@ export function useCalendars() {
       name: '',
       url: '',
       rules: [],
+      replacements: [],
     }
     return defaultCalendar
   })

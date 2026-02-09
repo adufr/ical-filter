@@ -28,9 +28,17 @@ export interface Rule {
   v: string
 }
 
+export interface ReplaceRule {
+  f: RuleField
+  cs: boolean
+  from: string
+  to: string
+}
+
 export interface Calendar {
   id?: string
   url: string
   name: string
   rules: Rule[]
+  replacements?: ReplaceRule[]
 }
