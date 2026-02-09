@@ -223,7 +223,11 @@ function deleteCalendar() {
                 <UInput
                   v-model="rule.v"
                   class="w-full rounded-l-none rounded-r-none"
-                  placeholder="Enter some text..."
+                  :placeholder="
+                    rule.t === ruleTypes.regex
+                      ? 'Enter regex... e.g. /team/i'
+                      : 'Enter some text...'
+                  "
                   :ui="{
                     base: 'rounded-l-none rounded-r-none',
                   }"

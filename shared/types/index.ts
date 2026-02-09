@@ -11,13 +11,13 @@ export const ruleFields = {
 } as const
 export type RuleField = (typeof ruleFields)[keyof typeof ruleFields]
 
-// TODO: regex
 export const ruleTypes = {
   contains: 'c',
   equals: '=',
   notEquals: '!',
   startsWith: 's',
   endsWith: 'e',
+  regex: 'r',
 } as const
 export type RuleType = (typeof ruleTypes)[keyof typeof ruleTypes]
 

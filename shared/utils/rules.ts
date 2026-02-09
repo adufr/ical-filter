@@ -73,30 +73,60 @@ function toUniqueFlags(flags: string) {
   return Array.from(new Set(flags)).join('')
 }
 
-function toRegexFromLiteral(value: string, isCaseSensitive: boolean) {
+function parseRegexLiteral(value: string) {
   const match = value.match(/^\/(.+)\/([dgimsuvy]*)$/)
   if (!match) return null
 
   const pattern = match[1]
   if (pattern === undefined) return null
 
-  let flags = match[2] ?? ''
+  const flags = match[2] ?? ''
+  return { pattern, flags }
+}
+
+function withCaseSensitivityFlag(flags: string, isCaseSensitive: boolean) {
+  let nextFlags = flags
 
   if (isCaseSensitive) {
-    flags = flags.replaceAll('i', '')
-  } else if (!flags.includes('i')) {
-    flags += 'i'
+    nextFlags = nextFlags.replaceAll('i', '')
+  } else if (!nextFlags.includes('i')) {
+    nextFlags += 'i'
   }
 
-  if (!flags.includes('g')) {
-    flags += 'g'
-  }
+  return nextFlags
+}
 
+function createRegex(pattern: string, flags: string) {
   try {
     return new RegExp(pattern, toUniqueFlags(flags))
   } catch {
     return null
   }
+}
+
+function toRegexFromLiteral(value: string, isCaseSensitive: boolean) {
+  const literalRegex = parseRegexLiteral(value)
+  if (!literalRegex) return null
+
+  let flags = withCaseSensitivityFlag(literalRegex.flags, isCaseSensitive)
+
+  if (!flags.includes('g')) {
+    flags += 'g'
+  }
+
+  return createRegex(literalRegex.pattern, flags)
+}
+
+function toRegexFromRuleValue(value: string, isCaseSensitive: boolean) {
+  const literalRegex = parseRegexLiteral(value)
+
+  if (literalRegex) {
+    const flags = withCaseSensitivityFlag(literalRegex.flags, isCaseSensitive)
+    return createRegex(literalRegex.pattern, flags)
+  }
+
+  const flags = isCaseSensitive ? '' : 'i'
+  return createRegex(value, flags)
 }
 
 function replaceText(value: string, replacement: ReplaceRule) {
@@ -114,6 +144,9 @@ function replaceText(value: string, replacement: ReplaceRule) {
 }
 
 export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
+  const regexPattern =
+    rule.t === ruleTypes.regex ? toRegexFromRuleValue(rule.v, rule.cs) : null
+
   return icsEvents.filter((event) => {
     const fieldValue = getEventFieldValue(event, rule.f)
     if (fieldValue === undefined) return false
@@ -132,6 +165,10 @@ export function applyRuleFilter(icsEvents: VEvent[], rule: Rule) {
         return compareValue?.startsWith(value)
       case ruleTypes.endsWith:
         return compareValue?.endsWith(value)
+      case ruleTypes.regex:
+        if (!regexPattern) return false
+        regexPattern.lastIndex = 0
+        return regexPattern.test(fieldValue)
       default:
         return false
     }
