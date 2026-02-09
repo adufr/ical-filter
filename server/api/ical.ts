@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 const querySchema = z.object({
   name: z.string(),
-  url: z.string().url(),
+  url: z.url(),
   rules: z.union([
     stringToJSONSchema.pipe(ruleSchema),
     z.array(stringToJSONSchema.pipe(ruleSchema)),

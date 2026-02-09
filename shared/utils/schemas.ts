@@ -12,8 +12,8 @@ export const stringToJSONSchema = z
   })
 
 export const ruleSchema = z.object({
-  f: z.nativeEnum(ruleFields),
-  t: z.nativeEnum(ruleTypes),
+  f: z.enum(ruleFields),
+  t: z.enum(ruleTypes),
   cs: z.boolean(),
   v: z.string(),
 })
@@ -21,7 +21,7 @@ export const ruleSchema = z.object({
 export type RuleSchema = z.output<typeof ruleSchema>
 
 export const formSchema = z.object({
-  url: z.string().url(),
+  url: z.url(),
   name: z.string().min(1),
   rules: z.array(ruleSchema),
 })

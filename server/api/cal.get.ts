@@ -2,7 +2,7 @@ import ical, { type VEvent } from 'node-ical'
 import { z } from 'zod'
 
 const querySchema = z.object({
-  url: z.string().url(),
+  url: z.url(),
 })
 
 export default defineEventHandler(async (event) => {
