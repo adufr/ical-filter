@@ -55,7 +55,7 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(prettier@3.8.1)
       '@nuxt/eslint':
-        specifier: ^1.14.0
+        specifier: ^1.15.1
         version: 1.15.1(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.28)(eslint@9.39.3(jiti@2.6.1))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.1(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2))
       '@nuxt/test-utils':
         specifier: ^4.0.0
@@ -76,7 +76,7 @@ importers:
         specifier: ^14.2.1
         version: 14.2.1(magicast@0.5.2)(nuxt@4.3.1(@parcel/watcher@2.5.6)(@vue/compiler-sfc@3.5.28)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.3(jiti@2.6.1))(ioredis@5.9.3)(lightningcss@1.31.1)(magicast@0.5.2)(optionator@0.9.4)(rollup@4.59.0)(terser@5.46.0)(typescript@5.9.3)(vite@7.3.1(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(yaml@2.8.2))(vue-tsc@3.2.5(typescript@5.9.3))(yaml@2.8.2))(vue@3.5.28(typescript@5.9.3))
       eslint:
-        specifier: ^9.39.2
+        specifier: ^9.39.3
         version: 9.39.3(jiti@2.6.1)
       nuxt-schema-org:
         specifier: ^5.0.10
