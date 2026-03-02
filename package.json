@@ -38,7 +38,7 @@
   "devDependencies": {
     "@adufr/eslint-config": "^3.0.0",
     "@adufr/prettier-config": "^1.0.2",
-    "@nuxt/eslint": "^1.15.1",
+    "@nuxt/eslint": "^1.15.2",
     "@nuxt/test-utils": "^4.0.0",
     "@nuxtjs/robots": "^5.7.0",
     "@nuxtjs/sitemap": "^7.6.0",
