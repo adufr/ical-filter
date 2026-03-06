@@ -51,11 +51,15 @@ if (props.mode === 'new') {
     id: crypto.randomUUID(),
     name: '',
     url: '',
+    timezone: '',
     rules: [],
     replacements: [],
   }
 }
 
+if (!activeCalendar.value.timezone) {
+  activeCalendar.value.timezone = ''
+}
 if (!activeCalendar.value.rules) {
   activeCalendar.value.rules = []
 }
@@ -181,6 +185,19 @@ function deleteCalendar() {
           <p v-else>Found a total of {{ data?.events.length ?? 0 }} events</p>
         </div>
       </div>
+
+      <UFormField
+        label="Fallback timezone"
+        name="timezone"
+        help="Used only when the source calendar does not provide timezone metadata."
+      >
+        <UInput
+          v-model="activeCalendar.timezone"
+          class="w-full"
+          placeholder="Europe/Paris"
+          leading-icon="i-heroicons-globe-europe-africa"
+        />
+      </UFormField>
 
       <!-- rules -->
       <div class="flex h-full flex-col gap-4">

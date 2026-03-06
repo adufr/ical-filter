@@ -39,6 +39,7 @@ export interface Calendar {
   id?: string
   url: string
   name: string
+  timezone?: string
   rules: Rule[]
   replacements?: ReplaceRule[]
 }
