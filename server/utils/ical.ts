@@ -21,13 +21,22 @@ function isUtcTimezone(timezone?: string) {
   )
 }
 
+const ianaTimezoneValidationCache = new Map<string, boolean>()
+
 function hasValidIanaTimezone(timezone: string) {
+  const cached = ianaTimezoneValidationCache.get(timezone)
+  if (cached !== undefined) return cached
+
+  let valid: boolean
   try {
     Intl.DateTimeFormat('en-US', { timeZone: timezone }).format(new Date())
-    return true
+    valid = true
   } catch {
-    return false
+    valid = false
   }
+
+  ianaTimezoneValidationCache.set(timezone, valid)
+  return valid
 }
 
 const dateTimeFormatCache = new Map<string, Intl.DateTimeFormat>()
