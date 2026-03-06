@@ -1,4 +1,14 @@
 import { z } from 'zod'
+import { ruleFields, ruleTypes } from '../types/index'
+
+function isValidIanaTimezone(value: string) {
+  try {
+    Intl.DateTimeFormat('en-US', { timeZone: value }).format(new Date())
+    return true
+  } catch {
+    return false
+  }
+}
 
 export const stringToJSONSchema = z
   .string()
@@ -29,9 +39,18 @@ export const replaceRuleSchema = z.object({
 
 export type ReplaceRuleSchema = z.output<typeof replaceRuleSchema>
 
+export const timezoneSchema = z
+  .string()
+  .trim()
+  .transform((value) => value || undefined)
+  .pipe(
+    z.string().refine(isValidIanaTimezone, 'Invalid IANA timezone').optional(),
+  )
+
 export const formSchema = z.object({
   url: z.url(),
   name: z.string().min(1),
+  timezone: timezoneSchema.optional(),
   rules: z.array(ruleSchema).default([]),
   replacements: z.array(replaceRuleSchema).default([]),
 })

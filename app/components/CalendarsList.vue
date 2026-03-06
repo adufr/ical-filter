@@ -12,6 +12,7 @@ const calendarsWithCounts = ref<
 function editCalendar(calendar: Calendar) {
   activeCalendar.value = {
     ...calendar,
+    timezone: calendar.timezone ?? '',
     rules: calendar.rules ?? [],
     replacements: calendar.replacements ?? [],
   }

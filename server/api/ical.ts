@@ -1,10 +1,11 @@
-import { ICalCalendar, type ICalEventData } from 'ical-generator'
+import { ICalCalendar } from 'ical-generator'
 import ical, { type VEvent } from 'node-ical'
 import { z } from 'zod'
 
 const querySchema = z.object({
   name: z.string(),
   url: z.url(),
+  timezone: timezoneSchema.optional(),
   rules: z
     .union([
       stringToJSONSchema.pipe(ruleSchema),
@@ -20,7 +21,7 @@ const querySchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  const { name, url, rules, replacements } = await getValidatedQuery(
+  const { name, url, timezone, rules, replacements } = await getValidatedQuery(
     event,
     (query) => querySchema.parse(query),
   )
@@ -42,6 +43,7 @@ export default defineEventHandler(async (event) => {
     const icsEvents = Object.values(ics).filter(
       (item): item is VEvent => item?.type === 'VEVENT',
     )
+    const sourceTimezone = getSourceCalendarTimezone(ics.vcalendar)
 
     // 2. filter and transform events based on rules
     const filteredEvents =
@@ -52,10 +54,14 @@ export default defineEventHandler(async (event) => {
 
     // 3. return data as ics
     const calendar = new ICalCalendar({ name })
-    calendar.timezone('Europe/Paris')
 
     for (const filteredEvent of transformedEvents) {
-      calendar.createEvent(filteredEvent as unknown as ICalEventData)
+      calendar.createEvent(
+        mapVEventToICalEventData(filteredEvent, {
+          fallbackTimezone: timezone,
+          sourceTimezone,
+        }),
+      )
     }
 
     setResponseHeader(event, 'content-type', 'text/calendar')

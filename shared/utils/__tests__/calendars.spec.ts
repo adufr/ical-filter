@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
+import { getCalendarUrl } from '../calendars'
+
 describe('getCalendarUrl', () => {
   it('serializes rules and replacements in query params', () => {
     const url = getCalendarUrl({
       id: 'calendar-id',
       name: 'Filtered calendar',
       url: 'https://example.com/calendar.ics',
+      timezone: 'Europe/Paris',
       rules: [{ f: 's', t: 'c', cs: true, v: 'foo' }],
       replacements: [{ f: 's', cs: false, from: 'boo', to: 'bar' }],
     })
@@ -13,6 +16,7 @@ describe('getCalendarUrl', () => {
 
     expect(query.get('name')).toBe('Filtered calendar')
     expect(query.get('url')).toBe('https://example.com/calendar.ics')
+    expect(query.get('timezone')).toBe('Europe/Paris')
     expect(query.getAll('rules')).toEqual([
       JSON.stringify({ f: 's', t: 'c', cs: true, v: 'foo' }),
     ])
@@ -26,11 +30,13 @@ describe('getCalendarUrl', () => {
       id: 'calendar-id',
       name: 'Filtered calendar',
       url: 'https://example.com/calendar.ics',
+      timezone: undefined,
       rules: [{ f: 's', t: 'c', cs: true, v: 'foo' }],
       replacements: [],
     })
     const query = new URLSearchParams(url.split('?')[1])
 
     expect(query.getAll('replacements')).toHaveLength(0)
+    expect(query.get('timezone')).toBeNull()
   })
 })
