@@ -12,6 +12,7 @@ onMounted(() => {
   if (calendar) {
     activeCalendar.value = {
       ...calendar,
+      timezone: calendar.timezone ?? '',
       rules: calendar.rules ?? [],
       replacements: calendar.replacements ?? [],
     }

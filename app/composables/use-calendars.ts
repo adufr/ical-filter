@@ -8,6 +8,7 @@ export function useCalendars() {
       id: '',
       name: '',
       url: '',
+      timezone: undefined,
       rules: [],
       replacements: [],
     }
