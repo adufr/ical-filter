@@ -30,9 +30,12 @@ function hasValidIanaTimezone(timezone: string) {
   }
 }
 
-function toCalendarDateInTimezone(date: Date, timezone: string) {
-  const parts = Object.fromEntries(
-    new Intl.DateTimeFormat('en-CA', {
+const dateTimeFormatCache = new Map<string, Intl.DateTimeFormat>()
+
+function getDateTimeFormatter(timezone: string) {
+  let formatter = dateTimeFormatCache.get(timezone)
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat('en-CA', {
       timeZone: timezone,
       year: 'numeric',
       month: '2-digit',
@@ -42,6 +45,14 @@ function toCalendarDateInTimezone(date: Date, timezone: string) {
       second: '2-digit',
       hourCycle: 'h23',
     })
+    dateTimeFormatCache.set(timezone, formatter)
+  }
+  return formatter
+}
+
+function toCalendarDateInTimezone(date: Date, timezone: string) {
+  const parts = Object.fromEntries(
+    getDateTimeFormatter(timezone)
       .formatToParts(date)
       .filter((part) => part.type !== 'literal')
       .map((part) => [part.type, part.value]),
