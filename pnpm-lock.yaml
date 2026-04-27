@@ -19,10 +19,10 @@ importers:
         version: 6.1.20(@fullcalendar/core@6.1.20)(vue@3.5.32(typescript@5.9.3))
       '@iconify-json/lucide':
         specifier: ^1.2.95
-        version: 1.2.102
+        version: 1.2.104
       '@iconify-json/simple-icons':
         specifier: ^1.2.72
-        version: 1.2.79
+        version: 1.2.80
       '@nuxt/image':
         specifier: ^2.0.0
         version: 2.0.0(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(srvx@0.11.15)
@@ -59,7 +59,7 @@ importers:
         version: 1.15.2(@typescript-eslint/utils@8.58.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.32)(eslint@9.39.4(jiti@2.6.1))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
       '@nuxt/test-utils':
         specifier: ^4.0.0
-        version: 4.0.2(@vue/test-utils@2.4.6)(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
+        version: 4.0.2(@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3)))(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
       '@nuxtjs/robots':
         specifier: ^5.7.1
         version: 5.7.1(magicast@0.5.2)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))(zod@4.3.6)
@@ -68,7 +68,7 @@ importers:
         version: 7.6.0(magicast@0.5.2)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))(zod@4.3.6)
       '@vue/test-utils':
         specifier: ^2.4.6
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3))
       '@vueuse/core':
         specifier: ^14.2.1
         version: 14.2.1(vue@3.5.32(typescript@5.9.3))
@@ -786,11 +786,11 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/lucide@1.2.102':
-    resolution: {integrity: sha512-Dm3EEqu5NrmzyDMB2U1+8yroEj2/dB9V4KlH0m/szwwF/ofSf0cPaGTZqkd1aExXjCor+vU53ttRMCGuXf+/cg==}
+  '@iconify-json/lucide@1.2.104':
+    resolution: {integrity: sha512-Vh4VPA/UNFhSPzEdDnSuOPA1xO6b/kI1w4SLBEiKnsFYPWimq2tVDynMgKnwddz6iZpuZfZU4PXR6kn0hJayKw==}
 
-  '@iconify-json/simple-icons@1.2.79':
-    resolution: {integrity: sha512-aNyO7Fd1qej9oQfIyohYFRv0lhQLaZ+6UkK1c1qwax0MDPUOZOdq65MlU500kow97pD/W+b2u1And3e25eE24Q==}
+  '@iconify-json/simple-icons@1.2.80':
+    resolution: {integrity: sha512-iglncJJ6X/dVuzFDU32MrHwwo4RBwivGf108dgyYg+HKS78ifx0h7sTenpDZMVT+UhdS6CSgZcvY/SvRXlIEUg==}
 
   '@iconify/collections@1.0.674':
     resolution: {integrity: sha512-YLEpD2DufdlvG6keWnfyBL+FrIOxm2+2aypAVns9vZCBMvWSU4dn/gQEz9CV7k5QPM1uE9OQqfHAaBMR+kf1kg==}
@@ -2704,8 +2704,15 @@ packages:
   '@vue/shared@3.5.32':
     resolution: {integrity: sha512-ksNyrmRQzWJJ8n3cRDuSF7zNNontuJg1YHnmWRJd2AMu8Ij2bqwiiri2lH5rHtYPZjj4STkNcgcmiQqlOjiYGg==}
 
-  '@vue/test-utils@2.4.6':
-    resolution: {integrity: sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==}
+  '@vue/test-utils@2.4.8':
+    resolution: {integrity: sha512-cjAKFbSXFhtZ9Cj+ug60b21lW/BN737e+Syu2LPACIW6R0zVtj65Fnfe649KjfHor3Etx3ZavDFFBrZ+p21YNw==}
+    peerDependencies:
+      '@vue/compiler-dom': 3.x
+      '@vue/server-renderer': 3.x
+      vue: 3.x
+    peerDependenciesMeta:
+      '@vue/server-renderer':
+        optional: true
 
   '@vueuse/core@10.11.1':
     resolution: {integrity: sha512-guoy26JQktXPcz+0n3GukWIy/JDNKti9v6VEMu6kV2sYBsWuGiTU8OWdg+ADfUbHg3/3DlqySDe7JmdHrktiww==}
@@ -6130,9 +6137,6 @@ packages:
   vue-bundle-renderer@2.2.0:
     resolution: {integrity: sha512-sz/0WEdYH1KfaOm0XaBmRZOWgYTEvUDt6yPYaUzl4E52qzgWLlknaPPTTZmp6benaPTlQAI/hN1x3tAzZygycg==}
 
-  vue-component-type-helpers@2.2.12:
-    resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
-
   vue-component-type-helpers@3.2.7:
     resolution: {integrity: sha512-+gPp5YGmhfsj1IN+xUo7y0fb4clfnOiiUA39y07yW1VzCRjzVgwLbtmdWlghh7mXrPsEaYc7rrIir/HT6C8vYQ==}
 
@@ -6983,11 +6987,11 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify-json/lucide@1.2.102':
+  '@iconify-json/lucide@1.2.104':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.79':
+  '@iconify-json/simple-icons@1.2.80':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -7681,7 +7685,7 @@ snapshots:
       rc9: 3.0.1
       std-env: 4.1.0
 
-  '@nuxt/test-utils@4.0.2(@vue/test-utils@2.4.6)(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))':
+  '@nuxt/test-utils@4.0.2(@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3)))(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))':
     dependencies:
       '@clack/prompts': 1.2.0
       '@nuxt/devtools-kit': 2.7.0(magicast@0.5.2)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
@@ -7710,10 +7714,10 @@ snapshots:
       tinyexec: 1.1.1
       ufo: 1.6.3
       unplugin: 3.0.0
-      vitest-environment-nuxt: 2.0.0(@vue/test-utils@2.4.6)(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
+      vitest-environment-nuxt: 2.0.0(@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3)))(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
       vue: 3.5.32(typescript@5.9.3)
     optionalDependencies:
-      '@vue/test-utils': 2.4.6
+      '@vue/test-utils': 2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3))
       vitest: 4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
     transitivePeerDependencies:
       - crossws
@@ -9103,10 +9107,14 @@ snapshots:
 
   '@vue/shared@3.5.32': {}
 
-  '@vue/test-utils@2.4.6':
+  '@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3))':
     dependencies:
+      '@vue/compiler-dom': 3.5.32
       js-beautify: 1.15.4
-      vue-component-type-helpers: 2.2.12
+      vue: 3.5.32(typescript@5.9.3)
+      vue-component-type-helpers: 3.2.7
+    optionalDependencies:
+      '@vue/server-renderer': 3.5.32(vue@3.5.32(typescript@5.9.3))
 
   '@vueuse/core@10.11.1(vue@3.5.32(typescript@5.9.3))':
     dependencies:
@@ -12938,9 +12946,9 @@ snapshots:
       terser: 5.46.1
       yaml: 2.8.3
 
-  vitest-environment-nuxt@2.0.0(@vue/test-utils@2.4.6)(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))):
+  vitest-environment-nuxt@2.0.0(@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3)))(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))):
     dependencies:
-      '@nuxt/test-utils': 4.0.2(@vue/test-utils@2.4.6)(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
+      '@nuxt/test-utils': 4.0.2(@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.32)(@vue/server-renderer@3.5.32(vue@3.5.32(typescript@5.9.3)))(vue@3.5.32(typescript@5.9.3)))(crossws@0.4.5(srvx@0.11.15))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vitest@4.1.4(vite@7.3.2(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)))
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
@@ -12987,8 +12995,6 @@ snapshots:
   vue-bundle-renderer@2.2.0:
     dependencies:
       ufo: 1.6.3
-
-  vue-component-type-helpers@2.2.12: {}
 
   vue-component-type-helpers@3.2.7: {}
 
