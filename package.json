@@ -47,7 +47,7 @@
     "@vueuse/nuxt": "^14.2.1",
     "eslint": "^9.39.4",
     "nuxt-schema-org": "^5.0.10",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vitest": "^4.0.18",
     "vue-tsc": "^3.2.5"
   },
