@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@fullcalendar/core':
-        specifier: ^6.1.20
+        specifier: ^6.1.21
         version: 6.1.21
       '@fullcalendar/timegrid':
-        specifier: ^6.1.20
+        specifier: ^6.1.21
         version: 6.1.21(@fullcalendar/core@6.1.21)
       '@fullcalendar/vue3':
-        specifier: ^6.1.20
+        specifier: ^6.1.21
         version: 6.1.21(@fullcalendar/core@6.1.21)(vue@3.5.41(typescript@5.9.3))
       '@iconify-json/lucide':
         specifier: ^1.2.95
